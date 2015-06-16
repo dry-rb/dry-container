@@ -26,13 +26,37 @@ module Dry
     module Mixin
       # @private
       def self.extended(base)
-        base.instance_variable_set(:@_mutex, Mutex.new)
+        base.class_eval do
+          extend ::Dry::Configurable
+
+          setting :registry, Registry.new
+          setting :resolver, Resolver.new
+
+          @_container = ThreadSafe::Cache.new
+
+          class << self
+            attr_reader :_container
+          end
+        end
       end
       # @private
       def self.included(base)
-        base.send(:define_method, :initialize) do |*args, &block|
-          @_mutex = Mutex.new
-          super(*args, &block)
+        base.class_eval do
+          extend ::Dry::Configurable
+
+          setting :registry, Registry.new
+          setting :resolver, Resolver.new
+
+          attr_reader :_container
+
+          def initialize(*args, &block)
+            @_container = ThreadSafe::Cache.new
+            super(*args, &block)
+          end
+
+          def config
+            self.class.config
+          end
         end
       end
       # Register an item with the container to be resolved later
@@ -42,14 +66,10 @@ module Dry
       # @param [Mixed] contents
       #   The item to register with the container (if no block given)
       # @param [Hash] options
-      # @option options [Symbol] :call
-      #   Whether the item should be called when resolved
+      #   Options to pass to the registry when registering the item
       # @yield
       #   If a block is given, contents will be ignored and the block
       #   will be registered instead
-      #
-      # @raise [Dry::Conainer::Error]
-      #   If an item is already registered with the given key
       #
       # @return [Dry::Container] self
       #
@@ -62,11 +82,7 @@ module Dry
           item = contents
         end
 
-        if _container.key?(key)
-          fail Error, "There is already an item registered with the key #{key.inspect}"
-        else
-          _container[key] = Item.new(item, options)
-        end
+        config.registry.call(_container, key, item, options)
 
         self
       end
@@ -75,18 +91,11 @@ module Dry
       # @param [Mixed] key
       #   The key for the item you wish to resolve
       #
-      # @raise [Dry::Conainer::Error]
-      #   If the given key is not registered with the container
-      #
       # @return [Mixed]
       #
       # @api public
       def resolve(key)
-        item = _container.fetch(key) do
-          fail Error, "Nothing registered with the key #{key.inspect}"
-        end
-
-        item.call
+        config.resolver.call(_container, key)
       end
       # Resolve an item from the container
       #
@@ -98,13 +107,6 @@ module Dry
       # @api public
       def [](key)
         resolve(key)
-      end
-
-      private
-
-      # @private
-      def _container
-        @_mutex.synchronize { @_container ||= ThreadSafe::Cache.new }
       end
     end
   end
