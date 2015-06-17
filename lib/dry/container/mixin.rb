@@ -26,6 +26,8 @@ module Dry
     module Mixin
       # @private
       def self.extended(base)
+        attr_reader :_container
+
         base.class_eval do
           extend ::Dry::Configurable
 
@@ -33,10 +35,6 @@ module Dry
           setting :resolver, Resolver.new
 
           @_container = ThreadSafe::Cache.new
-
-          class << self
-            attr_reader :_container
-          end
         end
       end
       # @private
