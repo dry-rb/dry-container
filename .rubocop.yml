@@ -10,3 +10,11 @@ Style/Documentation:
 Lint/HandleExceptions:
   Exclude:
     - rakelib/*.rake
+
+Lint/NestedMethodDefinition:
+  Exclude:
+    - lib/dry/container/mixin.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - lib/dry/container/mixin.rb
