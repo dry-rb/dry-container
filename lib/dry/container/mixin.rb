@@ -95,17 +95,7 @@ module Dry
       def resolve(key)
         config.resolver.call(_container, key)
       end
-      # Resolve an item from the container
-      #
-      # @param [Mixed] key
-      #   The key for the item you wish to resolve
-      #
-      # @return [Mixed]
-      #
-      # @api public
-      def [](key)
-        resolve(key)
-      end
+      alias_method :[], :resolve
     end
   end
 end
