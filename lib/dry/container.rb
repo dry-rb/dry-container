@@ -1,5 +1,5 @@
 require 'thread_safe'
-require 'dry/configurable'
+require 'dry-configurable'
 require 'dry/container/error'
 require 'dry/container/item'
 require 'dry/container/registry'
