@@ -76,7 +76,7 @@ You can configure how items are registered and resolved from the container:
 ```ruby
 Dry::Container.configure do |config|
   config.registry = ->(container, key, item, options) { container[key] = item }
-  config.resolver = ->(key) { container[key] }
+  config.resolver = ->(container, key) { container[key] }
 end
 
 class Container
@@ -84,7 +84,7 @@ class Container
 
   configure do |config|
     config.registry = ->(container, key, item, options) { container[key] = item }
-    config.resolver = ->(key) { container[key] }
+    config.resolver = ->(container, key) { container[key] }
   end
 end
 
@@ -93,7 +93,7 @@ class ContainerObject
 
   configure do |config|
     config.registry = ->(container, key, item, options) { container[key] = item }
-    config.resolver = ->(key) { container[key] }
+    config.resolver = ->(container, key) { container[key] }
   end
 end
 ```
