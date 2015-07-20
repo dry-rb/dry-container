@@ -18,3 +18,7 @@ Lint/NestedMethodDefinition:
 Metrics/MethodLength:
   Exclude:
     - lib/dry/container/mixin.rb
+
+Style/FileName:
+  Exclude:
+    - lib/dry-container.rb
