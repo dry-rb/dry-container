@@ -1,6 +1,8 @@
+require 'delegate'
 require 'thread_safe'
 require 'dry-configurable'
 require 'dry/container/error'
+require 'dry/container/decorators/default_options'
 require 'dry/container/item'
 require 'dry/container/registry'
 require 'dry/container/resolver'
