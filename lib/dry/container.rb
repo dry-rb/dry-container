@@ -4,6 +4,7 @@ require 'dry/container/error'
 require 'dry/container/item'
 require 'dry/container/registry'
 require 'dry/container/resolver'
+require 'dry/container/namespace_dsl'
 require 'dry/container/mixin'
 require 'dry/container/version'
 

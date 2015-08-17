@@ -49,6 +49,15 @@ container.register(:block, call: false) do
 end
 container.resolve(:block)
 # => #<Proc:0x007fa75e6830f0@(irb):36>
+
+# You can also register items under namespaces using the #namespace method
+container.namespace('repositories') do
+  namespace('checkout') do
+    register('orders') { ThreadSafe::Array.new }
+  end
+end
+container.resolve('repositories.checkout.orders')
+# => []
 ```
 
 You can also get container behaviour at both the class and instance level via the mixin:

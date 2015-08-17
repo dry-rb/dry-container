@@ -31,10 +31,11 @@ module Dry
         base.class_eval do
           extend ::Dry::Configurable
 
-          setting :registry, Registry.new
-          setting :resolver, Resolver.new
+          setting :registry, ::Dry::Container::Registry.new
+          setting :resolver, ::Dry::Container::Resolver.new
+          setting :namespace_separator, '.'
 
-          @_container = ThreadSafe::Cache.new
+          @_container = ::ThreadSafe::Cache.new
         end
       end
       # @private
@@ -42,13 +43,14 @@ module Dry
         base.class_eval do
           extend ::Dry::Configurable
 
-          setting :registry, Registry.new
-          setting :resolver, Resolver.new
+          setting :registry, ::Dry::Container::Registry.new
+          setting :resolver, ::Dry::Container::Resolver.new
+          setting :namespace_separator, '.'
 
           attr_reader :_container
 
           def initialize(*args, &block)
-            @_container = ThreadSafe::Cache.new
+            @_container = ::ThreadSafe::Cache.new
             super(*args, &block)
           end
 
@@ -69,7 +71,7 @@ module Dry
       #   If a block is given, contents will be ignored and the block
       #   will be registered instead
       #
-      # @return [Dry::Container] self
+      # @return [Dry::Container::Mixin] self
       #
       # @api public
       def register(key, contents = nil, options = {}, &block)
@@ -96,6 +98,24 @@ module Dry
         config.resolver.call(_container, key)
       end
       alias_method :[], :resolve
+      # Evaluate block and register items in namespace
+      #
+      # @param [Mixed] namespace
+      #   The namespace to register items in
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      def namespace(namespace, &block)
+        ::Dry::Container::NamespaceDSL.new(
+          self,
+          namespace,
+          config.namespace_separator,
+          &block
+        )
+
+        self
+      end
     end
   end
 end

@@ -6,7 +6,7 @@ module Dry
     class Registry
       # @private
       def initialize
-        @_mutex = Mutex.new
+        @_mutex = ::Mutex.new
       end
       # Register an item with the container to be resolved later
       #
@@ -31,7 +31,7 @@ module Dry
           if container.key?(key)
             fail Error, "There is already an item registered with the key #{key.inspect}"
           else
-            container[key] = Item.new(item, options)
+            container[key] = ::Dry::Container::Item.new(item, options)
           end
         end
       end
