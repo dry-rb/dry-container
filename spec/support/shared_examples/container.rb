@@ -125,13 +125,66 @@ shared_examples 'a container' do
         end
       end
 
-      context 'with option call: false' do
+      context 'with :call option set to false' do
         it 'registers and resolves an object' do
           item = -> { 'test' }
           container.register(:item, item, call: false)
 
           expect(container.resolve(:item)).to eq(item)
           expect(container[:item]).to eq(item)
+        end
+      end
+
+      context 'with :namespace option' do
+        context 'without :namespace_separator option' do
+          context 'without a configured namespace_separator' do
+            it 'registers and resolves an object under the given namespace with default separator' do
+              item = 'item'
+              container.register('item', item, namespace: 'namespace')
+
+              expect { container.resolve('item') }.to raise_error
+              expect(container.resolve('namespace.item')).to eq(item)
+              expect(container['namespace.item']).to eq(item)
+            end
+          end
+
+          context 'with a configured namespace_separator' do
+            before do
+              klass.configure do |config|
+                config.namespace_separator = '-'
+              end
+            end
+
+            after do
+              # HACK: Have to reset the configuration so that it doesn't
+              # interfere with other specs
+              klass.configure do |config|
+                config.namespace_separator = '.'
+              end
+            end
+
+            it 'registers and resolves an object under the given namespace with configured separator' do
+              item = 'item'
+              container.register('item', item, namespace: 'namespace')
+
+              expect { container.resolve('item') }.to raise_error
+              expect { container.resolve('namespace.item') }.to raise_error
+              expect(container.resolve('namespace-item')).to eq(item)
+              expect(container['namespace-item']).to eq(item)
+            end
+          end
+        end
+
+        context 'with :namespace_separator option' do
+          it 'registers and resolves an object under the given namespace with given separator' do
+            item = 'item'
+            container.register('item', item, namespace: 'namespace', namespace_separator: '_')
+
+            expect { container.resolve('item') }.to raise_error
+            expect { container.resolve('namespace.item') }.to raise_error
+            expect(container.resolve('namespace_item')).to eq(item)
+            expect(container['namespace_item']).to eq(item)
+          end
         end
       end
     end

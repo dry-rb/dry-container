@@ -7,6 +7,10 @@ Metrics/LineLength:
 Style/Documentation:
   Enabled: false
 
+# Assignment in condition is fine IMHO
+Lint/AssignmentInCondition:
+  Enabled: false
+
 Lint/HandleExceptions:
   Exclude:
     - rakelib/*.rake
