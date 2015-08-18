@@ -116,6 +116,19 @@ module Dry
 
         self
       end
+      # Import a namespace
+      #
+      # @param [Dry::Container::Namespace] namespace
+      #   The namespace to import
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      def import(namespace)
+        namespace(namespace.name, &namespace.block)
+
+        self
+      end
     end
   end
 end

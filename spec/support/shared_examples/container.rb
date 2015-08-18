@@ -230,5 +230,29 @@ shared_examples 'a container' do
         end
       end
     end
+
+    describe 'import' do
+      it 'allows importing of namespaces' do
+        ns = Dry::Container::Namespace.new('one') do
+          register('two', 2)
+        end
+
+        container.import(ns)
+
+        expect(container.resolve('one.two')).to eq(2)
+      end
+
+      it 'allows importing of nested namespaces' do
+        ns = Dry::Container::Namespace.new('two') do
+          register('three', 3)
+        end
+
+        container.namespace('one') do
+          import(ns)
+        end
+
+        expect(container.resolve('one.two.three')).to eq(3)
+      end
+    end
   end
 end
