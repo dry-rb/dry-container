@@ -23,6 +23,12 @@ module Dry
         super(namespaced(namespace), &block)
       end
 
+      def import(namespace)
+        namespace(namespace.name, &namespace.block)
+
+        self
+      end
+
       private
 
       def namespaced(key)
