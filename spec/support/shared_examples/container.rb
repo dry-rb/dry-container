@@ -72,6 +72,41 @@ shared_examples 'a container' do
         it { is_expected.to eq(item) }
       end
     end
+
+    describe 'namespace_separator' do
+      describe 'default' do
+        it { expect(klass.config.namespace_separator).to eq('.') }
+      end
+
+      describe 'custom' do
+        let(:custom_registry) { double('Registry') }
+        let(:key) { 'key' }
+        let(:namespace_separator) { '-' }
+        let(:namespace) { 'one' }
+
+        before do
+          klass.configure do |config|
+            config.namespace_separator = namespace_separator
+          end
+
+          container.namespace(namespace) do
+            register('key', 'item')
+          end
+        end
+
+        after do
+          # HACK: Have to reset the configuration so that it doesn't
+          # interfere with other specs
+          klass.configure do |config|
+            config.namespace_separator = '.'
+          end
+        end
+
+        subject! { container.resolve([namespace, key].join(namespace_separator)) }
+
+        it { is_expected.to eq('item') }
+      end
+    end
   end
 
   context 'with default configuration' do
@@ -147,6 +182,76 @@ shared_examples 'a container' do
     describe 'resolving with a key that has not been registered' do
       it do
         expect { container.resolve(:item) }.to raise_error(Dry::Container::Error)
+      end
+    end
+
+    describe 'namespace' do
+      context 'when block does not take arguments' do
+        before do
+          container.namespace('one') do
+            register('two', 2)
+          end
+        end
+
+        subject! { container.resolve('one.two') }
+
+        it 'registers items under the given namespace' do
+          is_expected.to eq(2)
+        end
+      end
+
+      context 'when block takes arguments' do
+        before do
+          container.namespace('one') do |c|
+            c.register('two', 2)
+          end
+        end
+
+        subject! { container.resolve('one.two') }
+
+        it 'registers items under the given namespace' do
+          is_expected.to eq(2)
+        end
+      end
+
+      context 'with nesting' do
+        before do
+          container.namespace('one') do
+            namespace('two') do
+              register('three', 3)
+            end
+          end
+        end
+
+        subject! { container.resolve('one.two.three') }
+
+        it 'registers items under the given namespaces' do
+          is_expected.to eq(3)
+        end
+      end
+    end
+
+    describe 'import' do
+      it 'allows importing of namespaces' do
+        ns = Dry::Container::Namespace.new('one') do
+          register('two', 2)
+        end
+
+        container.import(ns)
+
+        expect(container.resolve('one.two')).to eq(2)
+      end
+
+      it 'allows importing of nested namespaces' do
+        ns = Dry::Container::Namespace.new('two') do
+          register('three', 3)
+        end
+
+        container.namespace('one') do
+          import(ns)
+        end
+
+        expect(container.resolve('one.two.three')).to eq(3)
       end
     end
   end
