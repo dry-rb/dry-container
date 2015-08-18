@@ -18,7 +18,10 @@ module Dry
     #
     # @api public
     class Namespace
-      attr_reader :name, :block
+      # @return [Mixed] The namespace (name)
+      attr_reader :name
+      # @return [Proc] The block to be executed when the namespace is imported
+      attr_reader :block
       # Create a new namespace
       #
       # @param [Mixed] name

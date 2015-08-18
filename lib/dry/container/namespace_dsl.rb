@@ -2,6 +2,20 @@ module Dry
   class Container
     # @api private
     class NamespaceDSL < ::SimpleDelegator
+      # DSL for defining namespaces
+      #
+      # @param [Dry::Container::Mixin] container
+      #   The container
+      # @param [String] namespace
+      #   The namespace (name)
+      # @param [String] namespace_separator
+      #   The namespace separator
+      # @yield
+      #   The block to evaluate to define the namespace
+      #
+      # @return [Mixed]
+      #
+      # @api private
       def initialize(container, namespace, namespace_separator, &block)
         @namespace = namespace
         @namespace_separator = namespace_separator
