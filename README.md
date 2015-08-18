@@ -2,7 +2,9 @@
 
 <a href="https://rubygems.org/gems/dry-container" target="_blank">![Gem Version](https://badge.fury.io/rb/dry-container.svg)</a>
 <a href="https://travis-ci.org/dryrb/dry-container" target="_blank">![Build Status](https://travis-ci.org/dryrb/dry-container.svg?branch=master)</a>
-<a href="http://inch-ci.org/github/dryrb/dry-container" target="_blank">![Inline docs](http://inch-ci.org/github/dryrb/dry-container.svg?branch=master&style=flat)</a>
+<a href="https://gemnasium.com/dryrb/dry-container" target="_blank">![Dependency Status](https://gemnasium.com/dryrb/dry-container.svg)</a>
+<a href="https://gemnasium.com/dryrb/dry-container" target="_blank">![Code Climate](https://codeclimate.com/github/dryrb/dry-container/badges/gpa.svg)</a>
+<a href="http://inch-ci.org/github/dryrb/dry-container" target="_blank">![Documentation Status](http://inch-ci.org/github/dryrb/dry-container.svg?branch=master&style=flat)</a>
 
 A simple, configurable container implemented in Ruby
 
