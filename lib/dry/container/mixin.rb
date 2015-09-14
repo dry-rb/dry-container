@@ -36,8 +36,14 @@ module Dry
           setting :namespace_separator, '.'
 
           @_container = ::ThreadSafe::Cache.new
+
+          def self.inherited(subclass)
+            subclass.instance_variable_set(:@_container, @_container)
+            super
+          end
         end
       end
+
       # @private
       def self.included(base)
         base.class_eval do
@@ -59,6 +65,7 @@ module Dry
           end
         end
       end
+
       # Register an item with the container to be resolved later
       #
       # @param [Mixed] key
@@ -86,6 +93,7 @@ module Dry
 
         self
       end
+
       # Resolve an item from the container
       #
       # @param [Mixed] key
@@ -116,6 +124,7 @@ module Dry
 
         self
       end
+
       # Import a namespace
       #
       # @param [Dry::Container::Namespace] namespace

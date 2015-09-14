@@ -8,6 +8,7 @@ module Dry
       def initialize
         @_mutex = ::Mutex.new
       end
+
       # Register an item with the container to be resolved later
       #
       # @param [ThreadSafe::Hash] container
