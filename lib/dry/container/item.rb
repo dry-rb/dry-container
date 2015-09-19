@@ -9,7 +9,7 @@ module Dry
       def initialize(item, options = {})
         @item = item
         @options = {
-          call: item.is_a?(::Proc)
+          call: item.is_a?(::Proc) && item.arity == 0
         }.merge(options)
       end
 

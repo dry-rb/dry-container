@@ -112,10 +112,20 @@ shared_examples 'a container' do
   context 'with default configuration' do
     describe 'registering a block' do
       context 'without options' do
-        it 'registers and resolves an object' do
-          container.register(:item) { 'item' }
+        context 'without arguments' do
+          it 'registers and resolves an object' do
+            container.register(:item) { 'item' }
 
-          expect(container.resolve(:item)).to eq('item')
+            expect(container.resolve(:item)).to eq('item')
+          end
+        end
+
+        context 'with arguments' do
+          it 'registers and resolves a proc' do
+            container.register(:item) { |item| item }
+
+            expect(container.resolve(:item).call('item')).to eq('item')
+          end
         end
       end
 
@@ -131,11 +141,22 @@ shared_examples 'a container' do
 
     describe 'registering a proc' do
       context 'without options' do
-        it 'registers and resolves an object' do
-          container.register(:item, proc { 'item' })
+        context 'without arguments' do
+          it 'registers and resolves an object' do
+            container.register(:item, proc { 'item' })
 
-          expect(container.resolve(:item)).to eq('item')
-          expect(container[:item]).to eq('item')
+            expect(container.resolve(:item)).to eq('item')
+            expect(container[:item]).to eq('item')
+          end
+        end
+
+        context 'with arguments' do
+          it 'registers and resolves a proc' do
+            container.register(:item, proc { |item| item })
+
+            expect(container.resolve(:item).call('item')).to eq('item')
+            expect(container[:item].call('item')).to eq('item')
+          end
         end
       end
 
