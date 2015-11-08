@@ -106,6 +106,19 @@ module Dry
         config.resolver.call(_container, key)
       end
       alias_method :[], :resolve
+
+      # Check whether an items is registered under the given key
+      #
+      # @param [Mixed] key
+      #   The key you wish to check for registration with
+      #
+      # @return [Bool]
+      #
+      # @api public
+      def key?(key)
+        config.resolver.key?(_container, key)
+      end
+
       # Evaluate block and register items in namespace
       #
       # @param [Mixed] namespace

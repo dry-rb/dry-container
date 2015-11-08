@@ -24,6 +24,20 @@ module Dry
 
         item.call
       end
+
+      # Check whether an items is registered under the given key
+      #
+      # @param [ThreadSafe::Hash] container
+      #   The container
+      # @param [Mixed] key
+      #   The key you wish to check for registration with
+      #
+      # @return [Bool]
+      #
+      # @api public
+      def key?(container, key)
+        container.key?(key)
+      end
     end
   end
 end

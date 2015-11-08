@@ -116,6 +116,7 @@ shared_examples 'a container' do
           it 'registers and resolves an object' do
             container.register(:item) { 'item' }
 
+            expect(container.key?(:item)).to be true
             expect(container.resolve(:item)).to eq('item')
           end
         end
@@ -133,6 +134,7 @@ shared_examples 'a container' do
         it 'registers and resolves a proc' do
           container.register(:item, call: false) { 'item' }
 
+          expect(container.key?(:item)).to be true
           expect(container.resolve(:item).call).to eq('item')
           expect(container[:item].call).to eq('item')
         end
@@ -145,6 +147,7 @@ shared_examples 'a container' do
           it 'registers and resolves an object' do
             container.register(:item, proc { 'item' })
 
+            expect(container.key?(:item)).to be true
             expect(container.resolve(:item)).to eq('item')
             expect(container[:item]).to eq('item')
           end
@@ -154,6 +157,7 @@ shared_examples 'a container' do
           it 'registers and resolves a proc' do
             container.register(:item, proc { |item| item })
 
+            expect(container.key?(:item)).to be true
             expect(container.resolve(:item).call('item')).to eq('item')
             expect(container[:item].call('item')).to eq('item')
           end
@@ -164,6 +168,7 @@ shared_examples 'a container' do
         it 'registers and resolves a proc' do
           container.register(:item, proc { 'item' }, call: false)
 
+          expect(container.key?(:item)).to be true
           expect(container.resolve(:item).call).to eq('item')
           expect(container[:item].call).to eq('item')
         end
@@ -176,6 +181,7 @@ shared_examples 'a container' do
           item = 'item'
           container.register(:item, item)
 
+          expect(container.key?(:item)).to be true
           expect(container.resolve(:item)).to be(item)
           expect(container[:item]).to be(item)
         end
@@ -186,6 +192,7 @@ shared_examples 'a container' do
           item = -> { 'test' }
           container.register(:item, item, call: false)
 
+          expect(container.key?(:item)).to be true
           expect(container.resolve(:item)).to eq(item)
           expect(container[:item]).to eq(item)
         end
@@ -202,6 +209,7 @@ shared_examples 'a container' do
 
     describe 'resolving with a key that has not been registered' do
       it do
+        expect(container.key?(:item)).to be false
         expect { container.resolve(:item) }.to raise_error(Dry::Container::Error)
       end
     end
