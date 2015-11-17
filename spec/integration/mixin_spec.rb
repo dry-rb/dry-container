@@ -13,7 +13,5 @@ RSpec.describe Dry::Container::Mixin do
       Class.new { include Dry::Container::Mixin }
     end
     let(:container) { klass.new }
-
-    it_behaves_like 'a container'
   end
 end

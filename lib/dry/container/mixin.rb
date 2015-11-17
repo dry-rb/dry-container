@@ -70,27 +70,16 @@ module Dry
       #
       # @param [Mixed] key
       #   The key to register the container item with (used to resolve)
-      # @param [Mixed] contents
-      #   The item to register with the container (if no block given)
       # @param [Hash] options
       #   Options to pass to the registry when registering the item
       # @yield
-      #   If a block is given, contents will be ignored and the block
-      #   will be registered instead
+      #   Block to register with the container
       #
       # @return [Dry::Container::Mixin] self
       #
       # @api public
-      def register(key, contents = nil, options = {}, &block)
-        if block_given?
-          item = block
-          options = contents if contents.is_a?(::Hash)
-        else
-          item = contents
-        end
-
-        config.registry.call(_container, key, item, options)
-
+      def register(key, options = {}, &block)
+        config.registry.call(_container, key, block, options)
         self
       end
 

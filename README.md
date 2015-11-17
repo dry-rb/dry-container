@@ -21,8 +21,10 @@ end
 container = Dry::Container.new
 
 # Register an item with the container to be resolved later
-container.register(:data_store, data_store)
-container.register(:user_repository, -> { container.resolve(:data_store)[:users] })
+container.register(:data_store, singleton: true) { data_store }
+container.register(:user_repository, singleton: true) do
+  container[:data_store][:users]
+end
 
 # Resolve an item from the container
 container.resolve(:user_repository) << User.new('Jack', 'jack@dry-container.com')
@@ -33,20 +35,8 @@ container[:user_repository] << User.new('Jill', 'jill@dry-container.com')
 #      #<struct User name="Jill", email="jill@dry-container.com">
 #    ]
 
-# If you wish to register an item that responds to call but don't want it to be
-# called when resolved, you can use the options hash
-container.register(:proc, -> { :result }, call: false)
-container.resolve(:proc)
-# => #<Proc:0x007fa75e652c98@(irb):25 (lambda)>
-
-# You can also register using a block
-container.register(:item) do
-  :result
-end
-container.resolve(:item)
-# => :result
-
-container.register(:block, call: false) do
+# Without the singleton option the container will resolve a proc
+container.register(:block) do
   :result
 end
 container.resolve(:block)
@@ -55,7 +45,7 @@ container.resolve(:block)
 # You can also register items under namespaces using the #namespace method
 container.namespace('repositories') do
   namespace('checkout') do
-    register('orders') { ThreadSafe::Array.new }
+    register('orders', singleton: true) { ThreadSafe::Array.new }
   end
 end
 container.resolve('repositories.checkout.orders')
@@ -64,7 +54,7 @@ container.resolve('repositories.checkout.orders')
 # Or import a namespace
 ns = Dry::Container::Namespace.new('repositories') do
   namespace('authentication') do
-    register('users') { ThreadSafe::Array.new }
+    register('users', singleton: true) { ThreadSafe::Array.new }
   end
 end
 container.import(ns)
@@ -78,7 +68,7 @@ You can also get container behaviour at both the class and instance level via th
 class Container
   extend Dry::Container::Mixin
 end
-Container.register(:item, :my_item)
+Container.register(:item, singleton: true) { :my_item }
 Container.resolve(:item)
 # => :my_item
 
