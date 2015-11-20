@@ -96,6 +96,16 @@ module Dry
         self
       end
 
+      # Freeze the container
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      def freeze
+        _container.freeze
+        super
+      end
+
       # Resolve an item from the container
       #
       # @param [Mixed] key

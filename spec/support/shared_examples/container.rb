@@ -195,6 +195,14 @@ shared_examples 'a container' do
     it { expect(container[key]).to eq(item) }
   end
 
+  describe '#freeze' do
+    let(:key) { :key }
+
+    subject! { container.freeze }
+
+    it { expect { container.register(key, item) }.to raise_error(/^can't modify frozen/) }
+  end
+
   describe 'namespace' do
     context 'when block does not take arguments' do
       before do
