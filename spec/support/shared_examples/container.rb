@@ -1,4 +1,7 @@
 shared_examples 'a container' do
+  let(:item) { 'item' }
+  let(:item_proc) { proc { item } }
+
   describe 'configuration' do
     describe 'registry' do
       describe 'default' do
@@ -8,7 +11,6 @@ shared_examples 'a container' do
       describe 'custom' do
         let(:custom_registry) { double('Registry') }
         let(:key) { :key }
-        let(:item) { :item }
         let(:options) { {} }
 
         before do
@@ -27,13 +29,15 @@ shared_examples 'a container' do
           end
         end
 
-        subject! { container.register(key, item, options) }
+        subject! do
+          container.register(key, options, &item_proc)
+        end
 
         it do
           expect(custom_registry).to have_received(:call).with(
             container._container,
             key,
-            item,
+            item_proc,
             options
           )
         end
@@ -47,7 +51,6 @@ shared_examples 'a container' do
 
       describe 'custom' do
         let(:custom_resolver) { double('Resolver') }
-        let(:item) { double('Item') }
         let(:key) { :key }
 
         before do
@@ -55,7 +58,7 @@ shared_examples 'a container' do
             config.resolver = custom_resolver
           end
 
-          allow(custom_resolver).to receive(:call).and_return(item)
+          allow(custom_resolver).to receive(:call).and_return(item_proc)
         end
 
         after do
@@ -69,7 +72,7 @@ shared_examples 'a container' do
         subject! { container.resolve(key) }
 
         it { expect(custom_resolver).to have_received(:call).with(container._container, key) }
-        it { is_expected.to eq(item) }
+        it { is_expected.to eq(item_proc) }
       end
     end
 
@@ -89,8 +92,8 @@ shared_examples 'a container' do
             config.namespace_separator = namespace_separator
           end
 
-          container.namespace(namespace) do
-            register('key', 'item')
+          container.namespace(namespace) do |ns|
+            ns.register('key', &item_proc)
           end
         end
 
@@ -104,184 +107,169 @@ shared_examples 'a container' do
 
         subject! { container.resolve([namespace, key].join(namespace_separator)) }
 
-        it { is_expected.to eq('item') }
+        it { is_expected.to eq(item_proc) }
       end
     end
   end
 
-  context 'with default configuration' do
-    describe 'registering a block' do
-      context 'without options' do
-        context 'without arguments' do
-          it 'registers and resolves an object' do
-            container.register(:item) { 'item' }
-
-            expect(container.key?(:item)).to be true
-            expect(container.resolve(:item)).to eq('item')
-          end
-        end
-
-        context 'with arguments' do
-          it 'registers and resolves a proc' do
-            container.register(:item) { |item| item }
-
-            expect(container.resolve(:item).call('item')).to eq('item')
-          end
-        end
-      end
-
-      context 'with option call: false' do
-        it 'registers and resolves a proc' do
-          container.register(:item, call: false) { 'item' }
-
-          expect(container.key?(:item)).to be true
-          expect(container.resolve(:item).call).to eq('item')
-          expect(container[:item].call).to eq('item')
-        end
-      end
-    end
-
-    describe 'registering a proc' do
-      context 'without options' do
-        context 'without arguments' do
-          it 'registers and resolves an object' do
-            container.register(:item, proc { 'item' })
-
-            expect(container.key?(:item)).to be true
-            expect(container.resolve(:item)).to eq('item')
-            expect(container[:item]).to eq('item')
-          end
-        end
-
-        context 'with arguments' do
-          it 'registers and resolves a proc' do
-            container.register(:item, proc { |item| item })
-
-            expect(container.key?(:item)).to be true
-            expect(container.resolve(:item).call('item')).to eq('item')
-            expect(container[:item].call('item')).to eq('item')
-          end
-        end
-      end
-
-      context 'with option call: false' do
-        it 'registers and resolves a proc' do
-          container.register(:item, proc { 'item' }, call: false)
-
-          expect(container.key?(:item)).to be true
-          expect(container.resolve(:item).call).to eq('item')
-          expect(container[:item].call).to eq('item')
-        end
-      end
-    end
-
-    describe 'registering an object' do
-      context 'without options' do
-        it 'registers and resolves the object' do
-          item = 'item'
-          container.register(:item, item)
-
-          expect(container.key?(:item)).to be true
-          expect(container.resolve(:item)).to be(item)
-          expect(container[:item]).to be(item)
-        end
-      end
-
-      context 'with option call: false' do
+  describe '#register' do
+    context 'without options' do
+      context 'without arguments' do
         it 'registers and resolves an object' do
-          item = -> { 'test' }
-          container.register(:item, item, call: false)
+          container.register(:item, &item_proc)
 
           expect(container.key?(:item)).to be true
-          expect(container.resolve(:item)).to eq(item)
-          expect(container[:item]).to eq(item)
+          expect(container.resolve(:item)).to eq(item_proc)
+        end
+      end
+
+      context 'with arguments' do
+        let(:item_proc) { proc { |item| item } }
+
+        it 'registers and resolves a proc' do
+          container.register(:item, &item_proc)
+
+          expect(container.resolve(:item).call('item')).to eq('item')
         end
       end
     end
 
-    describe 'registering with the same key multiple times' do
-      it do
-        container.register(:item, proc { 'item' })
+    context 'with default options' do
+      it 'registers and resolves a proc' do
+        container.register(:item, &item_proc)
 
-        expect { container.register(:item, proc { 'item' }) }.to raise_error(Dry::Container::Error)
+        expect(container.key?(:item)).to be true
+        expect(container.resolve(:item)).to eq(item_proc)
+        expect(container[:item]).to eq(item_proc)
       end
     end
 
-    describe 'resolving with a key that has not been registered' do
+    context 'with option singleton: false' do
+      it 'registers and resolves a proc' do
+        container.register(:item, singleton: false, &item_proc)
+
+        expect(container.key?(:item)).to be true
+        expect(container.resolve(:item)).to eq(item_proc)
+        expect(container[:item]).to eq(item_proc)
+      end
+    end
+
+    context 'with option singleton: true' do
+      it 'registers, resolves and calls the proc, returning the result' do
+        container.register(:item, singleton: true, &item_proc)
+
+        expect(container.key?(:item)).to be true
+        expect(container.resolve(:item)).to eq(item)
+        expect(container[:item]).to eq(item)
+      end
+    end
+
+    context 'registering with the same key multiple times' do
+      it do
+        container.register(:item, &item_proc)
+
+        expect { container.register(:item, &item_proc) }.to raise_error(Dry::Container::Error)
+      end
+    end
+
+    context 'resolving with a key that has not been registered' do
       it do
         expect(container.key?(:item)).to be false
         expect { container.resolve(:item) }.to raise_error(Dry::Container::Error)
       end
     end
+  end
 
-    describe 'namespace' do
-      context 'when block does not take arguments' do
-        before do
-          container.namespace('one') do
-            register('two', 2)
-          end
-        end
+  describe '#merge' do
+    let(:key) { :key }
+    let(:other) { Dry::Container.new }
 
-        subject! { container.resolve('one.two') }
+    before do
+      other.register(key, singleton: true) { item }
+    end
 
-        it 'registers items under the given namespace' do
-          is_expected.to eq(2)
+    subject! { container.merge(other) }
+
+    it { expect(container.key?(key)).to be true }
+    it { expect(container.resolve(key)).to eq(item) }
+    it { expect(container[key]).to eq(item) }
+  end
+
+  describe '#freeze' do
+    let(:key) { :key }
+
+    subject! { container.freeze }
+
+    it { expect { container.register(key, item) }.to raise_error(/^can't modify frozen/) }
+  end
+
+  describe 'namespace' do
+    context 'when block does not take arguments' do
+      before do
+        container.namespace('one') do
+          register('two', singleton: true) { 2 }
         end
       end
 
-      context 'when block takes arguments' do
-        before do
-          container.namespace('one') do |c|
-            c.register('two', 2)
-          end
-        end
+      subject! { container.resolve('one.two') }
 
-        subject! { container.resolve('one.two') }
-
-        it 'registers items under the given namespace' do
-          is_expected.to eq(2)
-        end
-      end
-
-      context 'with nesting' do
-        before do
-          container.namespace('one') do
-            namespace('two') do
-              register('three', 3)
-            end
-          end
-        end
-
-        subject! { container.resolve('one.two.three') }
-
-        it 'registers items under the given namespaces' do
-          is_expected.to eq(3)
-        end
+      it 'registers items under the given namespace' do
+        is_expected.to eq(2)
       end
     end
 
-    describe 'import' do
-      it 'allows importing of namespaces' do
-        ns = Dry::Container::Namespace.new('one') do
-          register('two', 2)
+    context 'when block takes arguments' do
+      before do
+        container.namespace('one') do |c|
+          c.register('two', singleton: true) { 2 }
         end
-
-        container.import(ns)
-
-        expect(container.resolve('one.two')).to eq(2)
       end
 
-      it 'allows importing of nested namespaces' do
-        ns = Dry::Container::Namespace.new('two') do
-          register('three', 3)
-        end
+      subject! { container.resolve('one.two') }
 
+      it 'registers items under the given namespace' do
+        is_expected.to eq(2)
+      end
+    end
+
+    context 'with nesting' do
+      before do
         container.namespace('one') do
-          import(ns)
+          namespace('two') do
+            register('three', singleton: true) { 3 }
+          end
         end
-
-        expect(container.resolve('one.two.three')).to eq(3)
       end
+
+      subject! { container.resolve('one.two.three') }
+
+      it 'registers items under the given namespaces' do
+        is_expected.to eq(3)
+      end
+    end
+  end
+
+  describe 'import' do
+    it 'allows importing of namespaces' do
+      ns = Dry::Container::Namespace.new('one') do
+        register('two', singleton: true) { 2 }
+      end
+
+      container.import(ns)
+
+      expect(container.resolve('one.two')).to eq(2)
+    end
+
+    it 'allows importing of nested namespaces' do
+      ns = Dry::Container::Namespace.new('two') do
+        register('three', singleton: true) { 3 }
+      end
+
+      container.namespace('one') do
+        import(ns)
+      end
+
+      expect(container.resolve('one.two.three')).to eq(3)
     end
   end
 end

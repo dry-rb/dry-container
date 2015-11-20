@@ -35,7 +35,7 @@ module Dry
           setting :resolver, ::Dry::Container::Resolver.new
           setting :namespace_separator, '.'
 
-          @_container = ::ThreadSafe::Cache.new
+          @_container = ::ThreadSafe::Hash.new
 
           def self.inherited(subclass)
             subclass.instance_variable_set(:@_container, @_container)
@@ -56,7 +56,7 @@ module Dry
           attr_reader :_container
 
           def initialize(*args, &block)
-            @_container = ::ThreadSafe::Cache.new
+            @_container = ::ThreadSafe::Hash.new
             super(*args, &block)
           end
 
@@ -70,28 +70,40 @@ module Dry
       #
       # @param [Mixed] key
       #   The key to register the container item with (used to resolve)
-      # @param [Mixed] contents
-      #   The item to register with the container (if no block given)
       # @param [Hash] options
       #   Options to pass to the registry when registering the item
       # @yield
-      #   If a block is given, contents will be ignored and the block
-      #   will be registered instead
+      #   Block to register with the container
       #
       # @return [Dry::Container::Mixin] self
       #
       # @api public
-      def register(key, contents = nil, options = {}, &block)
-        if block_given?
-          item = block
-          options = contents if contents.is_a?(::Hash)
-        else
-          item = contents
-        end
-
-        config.registry.call(_container, key, item, options)
-
+      def register(key, options = {}, &block)
+        config.registry.call(_container, key, block, options)
         self
+      end
+
+      # Merge in the items of the other container
+      #
+      # @param [Dry::Container] other
+      #   The other container to merge in
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      def merge(other)
+        _container.merge!(other._container)
+        self
+      end
+
+      # Freeze the container
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      def freeze
+        _container.freeze
+        super
       end
 
       # Resolve an item from the container
