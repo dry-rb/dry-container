@@ -180,6 +180,21 @@ shared_examples 'a container' do
     end
   end
 
+  describe '#merge' do
+    let(:key) { :key }
+    let(:other) { Dry::Container.new }
+
+    before do
+      other.register(key, singleton: true) { item }
+    end
+
+    subject! { container.merge(other) }
+
+    it { expect(container.key?(key)).to be true }
+    it { expect(container.resolve(key)).to eq(item) }
+    it { expect(container[key]).to eq(item) }
+  end
+
   describe 'namespace' do
     context 'when block does not take arguments' do
       before do

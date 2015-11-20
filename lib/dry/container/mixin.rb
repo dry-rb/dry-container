@@ -35,7 +35,7 @@ module Dry
           setting :resolver, ::Dry::Container::Resolver.new
           setting :namespace_separator, '.'
 
-          @_container = ::ThreadSafe::Cache.new
+          @_container = ::ThreadSafe::Hash.new
 
           def self.inherited(subclass)
             subclass.instance_variable_set(:@_container, @_container)
@@ -56,7 +56,7 @@ module Dry
           attr_reader :_container
 
           def initialize(*args, &block)
-            @_container = ::ThreadSafe::Cache.new
+            @_container = ::ThreadSafe::Hash.new
             super(*args, &block)
           end
 
@@ -80,6 +80,19 @@ module Dry
       # @api public
       def register(key, options = {}, &block)
         config.registry.call(_container, key, block, options)
+        self
+      end
+
+      # Merge in the items of the other container
+      #
+      # @param [Dry::Container] other
+      #   The other container to merge in
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      def merge(other)
+        _container.merge!(other._container)
         self
       end
 
