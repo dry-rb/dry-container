@@ -38,7 +38,7 @@ module Dry
           @_container = ::ThreadSafe::Hash.new
 
           def self.inherited(subclass)
-            subclass.instance_variable_set(:@_container, @_container)
+            subclass.instance_variable_set(:@_container, @_container.dup)
             super
           end
         end
