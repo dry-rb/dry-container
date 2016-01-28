@@ -28,12 +28,12 @@ module Dry
       #
       # @api public
       def call(container, key, item, options)
+        key = key.to_s.dup.freeze
         @_mutex.synchronize do
           if container.key?(key)
             fail Error, "There is already an item registered with the key #{key.inspect}"
           end
 
-          key = key.is_a?(::String) ? key.dup.freeze : key
           container[key] = ::Dry::Container::Item.new(item, options)
         end
       end

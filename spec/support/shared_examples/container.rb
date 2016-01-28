@@ -214,6 +214,13 @@ shared_examples 'a container' do
       end
     end
 
+    describe 'mixing Strings and Symbols' do
+      it do
+        container.register(:item, 'item')
+        expect(container.resolve('item')).to eql('item')
+      end
+    end
+
     describe '#merge' do
       let(:key) { :key }
       let(:other) { Dry::Container.new }
