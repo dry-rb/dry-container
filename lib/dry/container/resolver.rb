@@ -18,7 +18,7 @@ module Dry
       #
       # @api public
       def call(container, key)
-        item = container.fetch(key) do
+        item = container.fetch(key.to_s) do
           fail Error, "Nothing registered with the key #{key.inspect}"
         end
 
@@ -36,7 +36,7 @@ module Dry
       #
       # @api public
       def key?(container, key)
-        container.key?(key)
+        container.key?(key.to_s)
       end
     end
   end
