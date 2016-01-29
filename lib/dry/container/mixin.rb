@@ -105,7 +105,7 @@ module Dry
       def resolve(key)
         config.resolver.call(_container, key)
       end
-      alias_method :[], :resolve
+      alias [] resolve
 
       # Merge in the items of the other container
       #

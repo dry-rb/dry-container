@@ -31,10 +31,10 @@ module Dry
         @_mutex.synchronize do
           if container.key?(key)
             fail Error, "There is already an item registered with the key #{key.inspect}"
-          else
-            key = key.is_a?(::String) ? key.dup.freeze : key
-            container[key] = ::Dry::Container::Item.new(item, options)
           end
+
+          key = key.is_a?(::String) ? key.dup.freeze : key
+          container[key] = ::Dry::Container::Item.new(item, options)
         end
       end
     end

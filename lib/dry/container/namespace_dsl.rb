@@ -25,7 +25,7 @@ module Dry
         if block.arity.zero?
           instance_eval(&block)
         else
-          block.call(self)
+          yield self
         end
       end
 
