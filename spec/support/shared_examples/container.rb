@@ -306,4 +306,20 @@ shared_examples 'a container' do
       end
     end
   end
+
+  describe 'mocking' do
+    before do
+      container.register(:item, 'item')
+      container.mock(:item, 'mock')
+    end
+
+    it 'mock keys on tests' do
+      expect(container.resolve(:item)).to eql('mock')
+    end
+
+    it 'clear defined mocks' do
+      Dry::Container::Mocking.clear!
+      expect(container.resolve(:item)).to eql('item')
+    end
+  end
 end
