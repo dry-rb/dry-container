@@ -132,6 +132,15 @@ module Dry
         config.resolver.key?(_container, key)
       end
 
+      # An array of registered names for the container
+      #
+      # @return [Array<String>]
+      #
+      # @api public
+      def keys
+        config.resolver.keys(_container)
+      end
+
       # Evaluate block and register items in namespace
       #
       # @param [Mixed] namespace

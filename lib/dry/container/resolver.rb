@@ -38,6 +38,15 @@ module Dry
       def key?(container, key)
         container.key?(key.to_s)
       end
+
+      # An array of registered names for the container
+      #
+      # @return [Array]
+      #
+      # @api public
+      def keys(container)
+        container.keys
+      end
     end
   end
 end
