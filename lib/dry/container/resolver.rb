@@ -19,7 +19,7 @@ module Dry
       # @api public
       def call(container, key)
         item = container.fetch(key.to_s) do
-          fail Error, "Nothing registered with the key #{key.inspect}"
+          raise Error, "Nothing registered with the key #{key.inspect}"
         end
 
         item.call
@@ -37,6 +37,15 @@ module Dry
       # @api public
       def key?(container, key)
         container.key?(key.to_s)
+      end
+
+      # An array of registered names for the container
+      #
+      # @return [Array]
+      #
+      # @api public
+      def keys(container)
+        container.keys
       end
     end
   end

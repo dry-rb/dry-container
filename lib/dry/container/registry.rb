@@ -31,7 +31,7 @@ module Dry
         key = key.to_s.dup.freeze
         @_mutex.synchronize do
           if container.key?(key)
-            fail Error, "There is already an item registered with the key #{key.inspect}"
+            raise Error, "There is already an item registered with the key #{key.inspect}"
           end
 
           container[key] = ::Dry::Container::Item.new(item, options)
