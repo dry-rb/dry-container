@@ -310,16 +310,43 @@ shared_examples 'a container' do
   describe 'mocking' do
     before do
       container.register(:item, 'item')
-      container.mock(:item, 'mock')
+      container.register(:foo, 'bar')
     end
 
-    it 'mock keys on tests' do
+    after do
+      container.unmock
+    end
+
+    it 'keys can be mocked' do
+      container.mock(:item, 'mock')
       expect(container.resolve(:item)).to eql('mock')
     end
 
-    it 'clear defined mocks' do
-      Dry::Container::Mocking.clear!
+    it 'only mocks mocked keys' do
+      container.mock(:item, 'mock')
+      expect(container.resolve(:foo)).to eql('bar')
+    end
+
+    it 'keys can be unmocked' do
+      container.mock(:item, 'mock')
+      container.unmock(:item)
+
       expect(container.resolve(:item)).to eql('item')
+    end
+
+    it 'keys can be mocked inside a block' do
+      container.mock(:item, 'mock') do
+        expect(container.resolve(:item)).to eql('mock')
+      end
+
+      expect(container.resolve(:item)).to eql('item')
+    end
+
+    it 'can mock multiple keys at once' do
+      container.mock(item: 'mock', foo: 'baz') do
+        expect(container.resolve(:item)).to eql('mock')
+        expect(container.resolve(:foo)).to eql('baz')
+      end
     end
   end
 end
