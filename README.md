@@ -10,6 +10,20 @@ A simple, configurable container implemented in Ruby
 
 ## Synopsis
 
+### Brief Example
+
+```ruby
+container = Dry::Container.new
+container.register(:parrot) { |a| puts a }
+
+parrot = container.resolve(:parrot)
+parrot.call("Hello World")
+# Hello World
+# => nil
+```
+
+### Detailed Example
+
 ```ruby
 User = Struct.new(:name, :email)
 
