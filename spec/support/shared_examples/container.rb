@@ -307,45 +307,46 @@ shared_examples 'a container' do
     end
   end
 
-  describe 'mocking' do
+  describe 'stubbing' do
     before do
+      container.enable_stubs!
+
       container.register(:item, 'item')
       container.register(:foo, 'bar')
     end
 
     after do
-      container.unmock
+      container.unstub
     end
 
-    it 'keys can be mocked' do
-      container.mock(:item, 'mock')
-      expect(container.resolve(:item)).to eql('mock')
+    it 'keys can be stubbed' do
+      container.stub(:item, 'stub')
+      expect(container.resolve(:item)).to eql('stub')
     end
 
-    it 'only mocks mocked keys' do
-      container.mock(:item, 'mock')
+    it 'only other keys remain accesible' do
+      container.stub(:item, 'stub')
       expect(container.resolve(:foo)).to eql('bar')
     end
 
-    it 'keys can be unmocked' do
-      container.mock(:item, 'mock')
-      container.unmock(:item)
+    it 'keys can be reverted back to their original value' do
+      container.stub(:item, 'stub')
+      container.unstub(:item)
 
       expect(container.resolve(:item)).to eql('item')
     end
 
-    it 'keys can be mocked inside a block' do
-      container.mock(:item, 'mock') do
-        expect(container.resolve(:item)).to eql('mock')
+    describe 'with block argument' do
+      it 'executes the block with the given stubs' do
+        expect { |b| container.stub(:item, 'stub', &b) }.to yield_control
       end
 
-      expect(container.resolve(:item)).to eql('item')
-    end
+      it 'keys are stubbed only while inside the block' do
+        container.stub(:item, 'stub') do
+          expect(container.resolve(:item)).to eql('stub')
+        end
 
-    it 'can mock multiple keys at once' do
-      container.mock(item: 'mock', foo: 'baz') do
-        expect(container.resolve(:item)).to eql('mock')
-        expect(container.resolve(:foo)).to eql('baz')
+        expect(container.resolve(:item)).to eql('item')
       end
     end
   end
