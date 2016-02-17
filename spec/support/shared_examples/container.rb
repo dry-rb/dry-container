@@ -313,4 +313,48 @@ shared_examples 'a container' do
       end
     end
   end
+
+  describe 'stubbing' do
+    before do
+      container.enable_stubs!
+
+      container.register(:item, 'item')
+      container.register(:foo, 'bar')
+    end
+
+    after do
+      container.unstub
+    end
+
+    it 'keys can be stubbed' do
+      container.stub(:item, 'stub')
+      expect(container.resolve(:item)).to eql('stub')
+    end
+
+    it 'only other keys remain accesible' do
+      container.stub(:item, 'stub')
+      expect(container.resolve(:foo)).to eql('bar')
+    end
+
+    it 'keys can be reverted back to their original value' do
+      container.stub(:item, 'stub')
+      container.unstub(:item)
+
+      expect(container.resolve(:item)).to eql('item')
+    end
+
+    describe 'with block argument' do
+      it 'executes the block with the given stubs' do
+        expect { |b| container.stub(:item, 'stub', &b) }.to yield_control
+      end
+
+      it 'keys are stubbed only while inside the block' do
+        container.stub(:item, 'stub') do
+          expect(container.resolve(:item)).to eql('stub')
+        end
+
+        expect(container.resolve(:item)).to eql('item')
+      end
+    end
+  end
 end
