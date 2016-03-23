@@ -105,7 +105,19 @@ module Dry
       def resolve(key)
         config.resolver.call(_container, key)
       end
-      alias [] resolve
+
+      # Resolve an item from the container
+      #
+      # @param [Mixed] key
+      #   The key for the item you wish to resolve
+      #
+      # @return [Mixed]
+      #
+      # @api public
+      # @see Dry::Container::Mixin#resolve
+      def [](key)
+        resolve(key)
+      end
 
       # Merge in the items of the other container
       #
