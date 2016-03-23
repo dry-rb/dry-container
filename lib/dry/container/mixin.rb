@@ -35,7 +35,7 @@ module Dry
           setting :resolver, ::Dry::Container::Resolver.new
           setting :namespace_separator, '.'
 
-          @_container = ::ThreadSafe::Hash.new
+          @_container = ::Concurrent::Hash.new
 
           def self.inherited(subclass)
             subclass.instance_variable_set(:@_container, @_container.dup)
@@ -56,7 +56,7 @@ module Dry
           attr_reader :_container
 
           def initialize(*args, &block)
-            @_container = ::ThreadSafe::Hash.new
+            @_container = ::Concurrent::Hash.new
             super(*args, &block)
           end
 

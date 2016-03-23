@@ -6,7 +6,7 @@ module Dry
     class Resolver
       # Resolve an item from the container
       #
-      # @param [ThreadSafe::Hash] container
+      # @param [Concurrent::Hash] container
       #   The container
       # @param [Mixed] key
       #   The key for the item you wish to resolve
@@ -27,7 +27,7 @@ module Dry
 
       # Check whether an items is registered under the given key
       #
-      # @param [ThreadSafe::Hash] container
+      # @param [Concurrent::Hash] container
       #   The container
       # @param [Mixed] key
       #   The key you wish to check for registration with

@@ -1,4 +1,4 @@
-require 'thread_safe'
+require 'concurrent'
 require 'dry-configurable'
 require 'dry/container/error'
 require 'dry/container/item'

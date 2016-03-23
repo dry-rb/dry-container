@@ -11,7 +11,7 @@ module Dry
 
       # Register an item with the container to be resolved later
       #
-      # @param [ThreadSafe::Hash] container
+      # @param [Concurrent::Hash] container
       #   The container
       # @param [Mixed] key
       #   The key to register the container item with (used to resolve)
