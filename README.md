@@ -27,8 +27,8 @@ parrot.call("Hello World")
 ```ruby
 User = Struct.new(:name, :email)
 
-data_store = ThreadSafe::Cache.new.tap do |ds|
-  ds[:users] = ThreadSafe::Array.new
+data_store = Concurrent::Map.new.tap do |ds|
+  ds[:users] = Concurrent::Array.new
 end
 
 # Initialize container
@@ -69,7 +69,7 @@ container.resolve(:block)
 # You can also register items under namespaces using the #namespace method
 container.namespace('repositories') do
   namespace('checkout') do
-    register('orders') { ThreadSafe::Array.new }
+    register('orders') { Concurrent::Array.new }
   end
 end
 container.resolve('repositories.checkout.orders')
@@ -78,7 +78,7 @@ container.resolve('repositories.checkout.orders')
 # Or import a namespace
 ns = Dry::Container::Namespace.new('repositories') do
   namespace('authentication') do
-    register('users') { ThreadSafe::Array.new }
+    register('users') { Concurrent::Array.new }
   end
 end
 container.import(ns)
