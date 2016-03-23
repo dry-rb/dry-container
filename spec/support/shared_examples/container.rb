@@ -329,11 +329,13 @@ shared_examples 'a container' do
     it 'keys can be stubbed' do
       container.stub(:item, 'stub')
       expect(container.resolve(:item)).to eql('stub')
+      expect(container[:item]).to eql('stub')
     end
 
     it 'only other keys remain accesible' do
       container.stub(:item, 'stub')
       expect(container.resolve(:foo)).to eql('bar')
+      expect(container[:foo]).to eql('bar')
     end
 
     it 'keys can be reverted back to their original value' do
@@ -341,6 +343,7 @@ shared_examples 'a container' do
       container.unstub(:item)
 
       expect(container.resolve(:item)).to eql('item')
+      expect(container[:item]).to eql('item')
     end
 
     describe 'with block argument' do
