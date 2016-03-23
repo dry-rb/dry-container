@@ -7,7 +7,6 @@ module Dry
       def resolve(key)
         _stubs.fetch(key) { super }
       end
-      alias [] resolve
 
       # Add a stub to the container
       def stub(key, value, &block)
