@@ -1,10 +1,17 @@
-# dry-container <a href="https://gitter.im/dry-rb/chat" target="_blank">![Join the chat at https://gitter.im/dry-rb/chat](https://badges.gitter.im/Join%20Chat.svg)</a>
+[gitter]: https://gitter.im/dry-rb/chat
+[gem]: https://rubygems.org/gems/dry-container
+[travis]: https://travis-ci.org/dry-rb/dry-container
+[code_climate]: https://codeclimate.com/github/dry-rb/dry-container
+[inch]: http://inch-ci.org/github/dry-rb/dry-container
 
-<a href="https://rubygems.org/gems/dry-container" target="_blank">![Gem Version](https://badge.fury.io/rb/dry-container.svg)</a>
-<a href="https://travis-ci.org/dry-rb/dry-container" target="_blank">![Build Status](https://travis-ci.org/dry-rb/dry-container.svg?branch=master)</a>
-<a href="https://gemnasium.com/dry-rb/dry-container" target="_blank">![Dependency Status](https://gemnasium.com/dry-rb/dry-container.svg)</a>
-<a href="https://codeclimate.com/github/dry-rb/dry-container" target="_blank">![Code Climate](https://codeclimate.com/github/dry-rb/dry-container/badges/gpa.svg)</a>
-<a href="http://inch-ci.org/github/dry-rb/dry-container" target="_blank">![Documentation Status](http://inch-ci.org/github/dry-rb/dry-container.svg?branch=master&style=flat)</a>
+# dry-container [![Join the Gitter chat](https://badges.gitter.im/Join%20Chat.svg)][gitter]
+
+[![Gem Version](https://img.shields.io/gem/v/dry-container.svg)][gem]
+[![Build Status](https://img.shields.io/travis/dry-rb/dry-container.svg)][travis]
+[![Code Climate](https://img.shields.io/codeclimate/github/dry-rb/dry-container.svg)][code_climate]
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/github/dry-rb/dry-container.svg)][code_climate]
+[![API Documentation Coverage](http://inch-ci.org/github/dry-rb/dry-container.svg)][inch]
+
 
 A simple, configurable container implemented in Ruby
 
