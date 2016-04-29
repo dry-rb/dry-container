@@ -26,8 +26,6 @@ module Dry
     module Mixin
       # @private
       def self.extended(base)
-        attr_reader :_container
-
         base.class_eval do
           extend ::Dry::Configurable
 
@@ -52,8 +50,6 @@ module Dry
           setting :registry, ::Dry::Container::Registry.new
           setting :resolver, ::Dry::Container::Resolver.new
           setting :namespace_separator, '.'
-
-          attr_reader :_container
 
           def initialize(*args, &block)
             @_container = ::Concurrent::Hash.new
@@ -184,6 +180,11 @@ module Dry
         namespace(namespace.name, &namespace.block)
 
         self
+      end
+
+      # @private no, really
+      def _container
+        @_container
       end
     end
   end
