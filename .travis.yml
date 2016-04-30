@@ -9,7 +9,6 @@ rvm:
   - 2.1
   - 2.2
   - rbx-2
-  - jruby
   - ruby-head
   - jruby-head
 env:
@@ -19,6 +18,9 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
+  include:
+    - rvm: jruby-9.0.0.0
+      before_install: rvm get master && rvm install jruby-9.0.0.0 && gem install bundler --no-ri --no-rdoc
 notifications:
   email: false
   webhooks:
