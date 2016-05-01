@@ -149,6 +149,33 @@ module Dry
         config.resolver.keys(_container)
       end
 
+      # Converts the container to a hash with symbolized keys
+      #
+      # @return [Hash<Symbol, Object>]
+      #
+      # @api public
+      def to_h
+        keys.inject({}) { |a, e| a.merge e.to_sym => self[e] }
+      end
+
+      # Converts the container to a hash with stringified keys
+      #
+      # @return [Hash<String, Object>]
+      #
+      # @api public
+      def to_hash
+        keys.inject({}) { |a, e| a.merge e.to_s => self[e] }
+      end
+
+      # Converts the container to a mash object
+      #
+      # @return [Hashie::Mash]
+      #
+      # @api public
+      def to_mash
+        Hashie::Mash.new(to_hash)
+      end
+
       # Evaluate block and register items in namespace
       #
       # @param [Mixed] namespace

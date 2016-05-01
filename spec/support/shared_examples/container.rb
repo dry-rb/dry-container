@@ -314,6 +314,27 @@ shared_examples 'a container' do
     end
   end
 
+  describe 'converting' do
+    before { container.register(:item, 'data') }
+
+    describe '#to_h' do
+      subject { container.to_h }
+      it { is_expected.to eql(item: 'data') }
+    end
+
+    describe '#to_hash' do
+      subject { container.to_hash }
+      it { is_expected.to eql('item' => 'data') }
+    end
+
+    describe '#to_mash' do
+      subject { container.to_mash }
+
+      it { is_expected.to be_kind_of Hashie::Mash }
+      it { is_expected.to eql('item' => 'data') }
+    end
+  end
+
   describe 'stubbing' do
     before do
       container.enable_stubs!
