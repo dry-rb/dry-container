@@ -1,5 +1,4 @@
 require 'concurrent'
-require 'hashie/mash'
 require 'dry-configurable'
 require 'dry/container/error'
 require 'dry/container/item'

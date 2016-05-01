@@ -326,13 +326,6 @@ shared_examples 'a container' do
       subject { container.to_hash }
       it { is_expected.to eql('item' => 'data') }
     end
-
-    describe '#to_mash' do
-      subject { container.to_mash }
-
-      it { is_expected.to be_kind_of Hashie::Mash }
-      it { is_expected.to eql('item' => 'data') }
-    end
   end
 
   describe 'stubbing' do

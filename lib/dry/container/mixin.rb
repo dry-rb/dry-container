@@ -155,7 +155,7 @@ module Dry
       #
       # @api public
       def to_h
-        keys.inject({}) { |a, e| a.merge e.to_sym => self[e] }
+        keys.each_with_object({}) { |e, a| a[e.to_sym] = self[e] }
       end
 
       # Converts the container to a hash with stringified keys
@@ -164,16 +164,7 @@ module Dry
       #
       # @api public
       def to_hash
-        keys.inject({}) { |a, e| a.merge e.to_s => self[e] }
-      end
-
-      # Converts the container to a mash object
-      #
-      # @return [Hashie::Mash]
-      #
-      # @api public
-      def to_mash
-        Hashie::Mash.new(to_hash)
+        keys.each_with_object({}) { |e, a| a[e.to_s] = self[e] }
       end
 
       # Evaluate block and register items in namespace
