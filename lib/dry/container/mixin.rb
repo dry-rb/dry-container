@@ -26,19 +26,22 @@ module Dry
     module Mixin
       # @private
       def self.extended(base)
+        hooks_mod = Module.new do
+          def inherited(subclass)
+            subclass.instance_variable_set(:@_container, @_container.dup)
+            super
+          end
+        end
+
         base.class_eval do
           extend ::Dry::Configurable
+          extend hooks_mod
 
           setting :registry, ::Dry::Container::Registry.new
           setting :resolver, ::Dry::Container::Resolver.new
           setting :namespace_separator, '.'
 
           @_container = ::Concurrent::Hash.new
-
-          def self.inherited(subclass)
-            subclass.instance_variable_set(:@_container, @_container.dup)
-            super
-          end
         end
       end
 
