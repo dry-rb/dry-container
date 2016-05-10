@@ -91,6 +91,15 @@ end
 container.import(ns)
 container.resolve('repositories.authentication.users')
 # => []
+
+# A container can be converted to hashes with symbolized or stringified keys
+container.register(:item) do
+  :result
+end
+container.to_h
+# => { item: :result }
+container.to_hash
+# => { 'item' => :result }
 ```
 
 You can also get container behaviour at both the class and instance level via the mixin:

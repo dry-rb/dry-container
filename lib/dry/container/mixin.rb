@@ -152,6 +152,24 @@ module Dry
         config.resolver.keys(_container)
       end
 
+      # Converts the container to a hash with symbolized keys
+      #
+      # @return [Hash<Symbol, Object>]
+      #
+      # @api public
+      def to_h
+        keys.each_with_object({}) { |e, a| a[e.to_sym] = self[e] }
+      end
+
+      # Converts the container to a hash with stringified keys
+      #
+      # @return [Hash<String, Object>]
+      #
+      # @api public
+      def to_hash
+        keys.each_with_object({}) { |e, a| a[e.to_s] = self[e] }
+      end
+
       # Evaluate block and register items in namespace
       #
       # @param [Mixed] namespace
