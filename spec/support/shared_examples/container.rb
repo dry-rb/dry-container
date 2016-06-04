@@ -245,9 +245,71 @@ shared_examples 'a container' do
 
       subject! { container.merge(other) }
 
-      it { expect(container.key?(key)).to be true }
       it { expect(container.resolve(key)).to be(:item) }
       it { expect(container[key]).to be(:item) }
+    end
+
+    describe '#key?' do
+      let(:key) { :key }
+
+      before do
+        container.register(key) { :item }
+      end
+
+      subject! { container.key?(resolve_key) }
+
+      context 'when key exists in container' do
+        let(:resolve_key) { key }
+
+        it { is_expected.to be true }
+      end
+
+      context 'when key does not exist in container' do
+        let(:resolve_key) { :random }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    describe '#keys' do
+      let(:keys) { [:key_1, :key_2] }
+      let(:expected_keys) { ['key_1', 'key_2'] }
+
+      before do
+        keys.each do |key|
+          container.register(key) { :item }
+        end
+      end
+
+      subject! { container.keys }
+
+      it 'returns stringified versions of all registered keys' do
+        is_expected.to match_array(expected_keys)
+      end
+    end
+
+    describe '#each_key' do
+      let(:keys) { [:key_1, :key_2] }
+      let(:expected_keys) { ['key_1', 'key_2'] }
+      let!(:yielded_keys) { [] }
+
+      before do
+        keys.each do |key|
+          container.register(key) { :item }
+        end
+      end
+
+      subject! do
+        container.each_key { |key| yielded_keys << key }
+      end
+
+      it 'yields stringified versions of all registered keys to the block' do
+        expect(yielded_keys).to match_array(expected_keys)
+      end
+
+      it 'returns the container' do
+        is_expected.to eq(container)
+      end
     end
 
     describe 'namespace' do

@@ -47,6 +47,18 @@ module Dry
       def keys(container)
         container.keys
       end
+
+
+      # Calls block once for each key in container, passing the key as a parameter.
+      #
+      # If no block is given, an enumerator is returned instead.
+      #
+      # @return Hash
+      #
+      # @api public
+      def each_key(container, &block)
+        container.each_key(&block)
+      end
     end
   end
 end

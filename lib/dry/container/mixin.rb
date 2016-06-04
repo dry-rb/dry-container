@@ -152,6 +152,18 @@ module Dry
         config.resolver.keys(_container)
       end
 
+      # Calls block once for each key in container, passing the key as a parameter.
+      #
+      # If no block is given, an enumerator is returned instead.
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      def each_key(&block)
+        config.resolver.each_key(_container, &block)
+        self
+      end
+
       # Evaluate block and register items in namespace
       #
       # @param [Mixed] namespace
