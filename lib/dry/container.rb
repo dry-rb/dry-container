@@ -31,6 +31,6 @@ module Dry
   #
   # @api public
   class Container
-    include Mixin
+    include ::Dry::Container::Mixin
   end
 end

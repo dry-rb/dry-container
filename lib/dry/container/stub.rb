@@ -41,7 +41,7 @@ module Dry
     module Mixin
       # Enable stubbing functionality into the current container
       def enable_stubs!
-        extend Dry::Container::Stub
+        extend ::Dry::Container::Stub
       end
     end
   end

@@ -3,7 +3,7 @@ require File.expand_path('../lib/dry/container/version', __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = 'dry-container'
-  spec.version       = Dry::Container::VERSION
+  spec.version       = ::Dry::Container::VERSION
   spec.authors       = ['Andy Holland']
   spec.email         = ['andyholland1991@aol.com']
   spec.summary       = 'A simple container intended for use as an IoC container'

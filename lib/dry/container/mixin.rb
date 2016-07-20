@@ -26,7 +26,7 @@ module Dry
     module Mixin
       # @private
       def self.extended(base)
-        hooks_mod = Module.new do
+        hooks_mod = ::Module.new do
           def inherited(subclass)
             subclass.instance_variable_set(:@_container, @_container.dup)
             super
