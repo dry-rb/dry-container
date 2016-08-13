@@ -243,10 +243,30 @@ shared_examples 'a container' do
         other.register(key) { :item }
       end
 
-      subject! { container.merge(other) }
+      context 'without namespace argument' do
+        subject! { container.merge(other) }
 
-      it { expect(container.resolve(key)).to be(:item) }
-      it { expect(container[key]).to be(:item) }
+        it { expect(container.resolve(key)).to be(:item) }
+        it { expect(container[key]).to be(:item) }
+      end
+
+      context 'with namespace argument' do
+        subject! { container.merge(other, namespace: namespace) }
+
+        context 'when namespace is nil' do
+          let(:namespace) { nil }
+
+          it { expect(container.resolve(key)).to be(:item) }
+          it { expect(container[key]).to be(:item) }
+        end
+
+        context 'when namespace is not nil' do
+          let(:namespace) { 'namespace' }
+
+          it { expect(container.resolve("#{namespace}.#{key}")).to be(:item) }
+          it { expect(container["#{namespace}.#{key}"]).to be(:item) }
+        end
+      end
     end
 
     describe '#key?' do
