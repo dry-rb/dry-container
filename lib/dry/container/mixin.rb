@@ -1,5 +1,8 @@
 module Dry
   class Container
+    PREFIX_NAMESPACE = ->(namespace, key, config) do
+      [namespace, key].compact.join(config.namespace_separator)
+    end
     # Mixin to expose Inversion of Control (IoC) container behaviour
     #
     # @example
@@ -126,8 +129,12 @@ module Dry
       # @return [Dry::Container::Mixin] self
       #
       # @api public
-      def merge(other)
-        _container.merge!(other._container)
+      def merge(other, namespace: nil)
+        _container.merge!(
+          other._container.each_with_object(::Concurrent::Hash.new) do |a, h|
+            h[PREFIX_NAMESPACE.call(namespace, a.first, config)] = a.last
+          end
+        )
         self
       end
 
