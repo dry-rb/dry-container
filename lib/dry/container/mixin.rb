@@ -131,8 +131,8 @@ module Dry
       # @api public
       def merge(other, namespace: nil)
         _container.merge!(
-          other._container.each_with_object(::Concurrent::Hash.new) do |(k, v), h|
-            h[PREFIX_NAMESPACE.call(namespace, k, config)] = v
+          other._container.each_with_object(::Concurrent::Hash.new) do |a, h|
+            h[PREFIX_NAMESPACE.call(namespace, a.first, config)] = a.last
           end
         )
         self
