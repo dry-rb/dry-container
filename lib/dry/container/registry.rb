@@ -21,7 +21,7 @@ module Dry
       # @option options [Symbol] :call
       #   Whether the item should be called when resolved
       #
-      # @raise [Dry::Conainer::Error]
+      # @raise [Dry::Container::Error]
       #   If an item is already registered with the given key
       #
       # @return [Mixed]
