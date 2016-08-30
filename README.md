@@ -91,6 +91,29 @@ end
 container.import(ns)
 container.resolve('repositories.authentication.users')
 # => []
+
+# You can also register a block that is used to initialize a dependency and
+# then memoize it, allowing several dependencies to be added without
+# enforcing an instantiation order
+class MessagePrinter
+  def initialize(container)
+    @message = container.resolve(:message)
+    @time = Time.now
+  end
+
+  def print
+    puts "#{@message} at #{@time}"
+  end
+end
+
+container.register(:message_printer, -> { MessagePrinter.new(container) }, memoize: true)
+container.register(:message, "Hello, world!")
+container.resolve(:message_printer).print
+# => Hello, world! at 2016-08-30 05:32:12 -0700
+
+# Same instance is reused next time
+container.resolve(:message_printer).print
+# => Hello, world! at 2016-08-30 05:32:12 -0700
 ```
 
 You can also get container behaviour at both the class and instance level via the mixin:
