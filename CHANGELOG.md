@@ -2,10 +2,10 @@
 
 ## Added
 
-* `memoize` option to `#register` - memoizes items on first resolve (ivoanjo)
+* `memoize` option to `#register` - memoizes items on first resolve ([ivoanjo](https://github.com/ivoanjo))
 
 ## Fixed
 
-* `required_ruby_version` set to `>= 2.0.0` (artofhuman)
+* `required_ruby_version` set to `>= 2.0.0` ([artofhuman](https://github.com/artofhuman))
 
 [Compare v0.4.0...HEAD](https://github.com/dry-rb/dry-container/compare/v0.4.0...HEAD)
