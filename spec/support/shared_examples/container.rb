@@ -204,6 +204,12 @@ shared_examples 'a container' do
           expect(container.resolve(:item)).to be 1
           expect(container.resolve(:item)).to be 1
         end
+
+        context 'when receiving something other than a proc' do
+          it do
+            expect { container.register(:item, "Hello!", memoize: true) }.to raise_error(Dry::Container::Error)
+          end
+        end
       end
     end
 

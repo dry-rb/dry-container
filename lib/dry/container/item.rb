@@ -11,8 +11,12 @@ module Dry
         @options = {
           call: item.is_a?(::Proc) && item.parameters.empty?
         }.merge(options)
-        @memoize = item.is_a?(::Proc) && options[:memoize] == true
-        @memoize_mutex = Mutex.new if memoize
+
+        if options[:memoize] == true
+          raise Error, "Memoize only supported for a block or a proc" unless item.is_a?(::Proc)
+          @memoize = true
+          @memoize_mutex = Mutex.new
+        end
       end
 
       def call
