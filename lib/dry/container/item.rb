@@ -13,9 +13,12 @@ module Dry
         }.merge(options)
 
         if options[:memoize] == true
-          raise Error, 'Memoize only supported for a block or a proc' unless item.is_a?(::Proc)
+          raise(
+            ::Dry::Container::Error,
+            'Memoize only supported for a block or a proc'
+          ) unless item.is_a?(::Proc)
           @memoize = true
-          @memoize_mutex = Mutex.new
+          @memoize_mutex = ::Mutex.new
         end
       end
 
