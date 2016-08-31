@@ -185,6 +185,33 @@ shared_examples 'a container' do
           expect(container[:item].call).to eq('item')
         end
       end
+
+      context 'with option memoize: true' do
+        it 'registers and resolves a proc' do
+          container.register(:item, proc { 'item' }, memoize: true)
+
+          expect(container[:item]).to be container[:item]
+          expect(container.keys).to eq(['item'])
+          expect(container.key?(:item)).to be true
+          expect(container.resolve(:item)).to eq('item')
+          expect(container[:item]).to eq('item')
+        end
+
+        it 'only resolves the proc once' do
+          resolved_times = 0
+
+          container.register(:item, proc { resolved_times += 1 }, memoize: true)
+
+          expect(container.resolve(:item)).to be 1
+          expect(container.resolve(:item)).to be 1
+        end
+
+        context 'when receiving something other than a proc' do
+          it do
+            expect { container.register(:item, "Hello!", memoize: true) }.to raise_error(Dry::Container::Error)
+          end
+        end
+      end
     end
 
     describe 'registering an object' do
