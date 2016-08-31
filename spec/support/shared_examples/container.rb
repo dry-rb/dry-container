@@ -190,6 +190,7 @@ shared_examples 'a container' do
         it 'registers and resolves a proc' do
           container.register(:item, proc { 'item' }, memoize: true)
 
+          expect(container[:item]).to be container[:item]
           expect(container.keys).to eq(['item'])
           expect(container.key?(:item)).to be true
           expect(container.resolve(:item)).to eq('item')
