@@ -29,6 +29,8 @@ module Dry
         end
       end
 
+      private
+
       def memoized_item
         memoize_mutex.synchronize do
           @memoized_item ||= item.call
