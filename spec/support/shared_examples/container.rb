@@ -208,7 +208,7 @@ shared_examples 'a container' do
 
         context 'when receiving something other than a proc' do
           it do
-            expect { container.register(:item, "Hello!", memoize: true) }.to raise_error(Dry::Container::Error)
+            expect { container.register(:item, 'Hello!', memoize: true) }.to raise_error(Dry::Container::Error)
           end
         end
       end

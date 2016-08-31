@@ -107,7 +107,7 @@ class MessagePrinter
 end
 
 container.register(:message_printer, -> { MessagePrinter.new(container) }, memoize: true)
-container.register(:message, "Hello, world!")
+container.register(:message, 'Hello, world!')
 container.resolve(:message_printer).print
 # => Hello, world! at 2016-08-30 05:32:12 -0700
 
