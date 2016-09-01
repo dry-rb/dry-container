@@ -1,4 +1,4 @@
-shared_examples 'a container' do
+RSpec.shared_examples 'a container' do
   describe 'configuration' do
     describe 'registry' do
       describe 'default' do
