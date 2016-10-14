@@ -179,6 +179,22 @@ module Dry
         self
       end
 
+      # Calls block once for each key/value pair in the container, passing the key and the registered item parameters.
+      #
+      # If no block is given, an enumerator is returned instead.
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      #
+      # @note In discussions with other developers, it was felt that being able to iterate over not just
+      #       the registered keys, but to see what was registered would be very helpful. This is a step
+      #       toward doing that.
+      def each_pair(&block)
+        config.resolver.each_pair(_container, &block)
+        self
+      end
+
       # Evaluate block and register items in namespace
       #
       # @param [Mixed] namespace

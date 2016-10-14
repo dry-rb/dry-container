@@ -1,3 +1,9 @@
+## Unreleased
+
+## Added
+
+* `Dry::Container::Mixin#each_pair` - provides a means of seeing what all is registered in the container ([jeremyf](https://github.com/jeremyf))
+
 ## v0.5.0
 
 ## Added
