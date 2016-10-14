@@ -13,7 +13,7 @@
 [![API Documentation Coverage](http://inch-ci.org/github/dry-rb/dry-container.svg)][inch]
 
 
-A simple, configurable container implemented in Ruby
+A simple, configurable container implemented in Ruby.
 
 ## Synopsis
 
@@ -28,6 +28,8 @@ parrot.call("Hello World")
 # Hello World
 # => nil
 ```
+
+See [Dry::AutoInject Usage](https://github.com/dry-rb/dry-auto_inject#usage) for additional details.
 
 ### Detailed Example
 
