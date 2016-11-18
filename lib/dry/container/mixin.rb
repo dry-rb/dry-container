@@ -49,18 +49,22 @@ module Dry
       end
 
       # @private
+      module Initializer
+        def initialize(*args, &block)
+          @_container = ::Concurrent::Hash.new
+          super
+        end
+      end
+
+      # @private
       def self.included(base)
         base.class_eval do
           extend ::Dry::Configurable
+          prepend Initializer
 
           setting :registry, ::Dry::Container::Registry.new
           setting :resolver, ::Dry::Container::Resolver.new
           setting :namespace_separator, '.'
-
-          def initialize(*args, &block)
-            @_container = ::Concurrent::Hash.new
-            super(*args, &block)
-          end
 
           def config
             self.class.config
