@@ -359,6 +359,30 @@ RSpec.shared_examples 'a container' do
       end
     end
 
+    describe '#each' do
+      let(:keys) { [:key_1, :key_2] }
+      let(:expected_key_value_pairs) { [['key_1', kind_of(Dry::Container::Item)], ['key_2', kind_of(Dry::Container::Item)]] }
+      let!(:yielded_key_value_pairs) { [] }
+
+      before do
+        keys.each do |key|
+          container.register(key) { "value_for_#{key}" }
+        end
+      end
+
+      subject! do
+        container.each { |key, value| yielded_key_value_pairs << [key, value] }
+      end
+
+      it 'yields stringified versions of all registered keys to the block' do
+        expect(yielded_key_value_pairs).to match_array(expected_key_value_pairs)
+      end
+
+      it 'returns the container' do
+        is_expected.to eq(container)
+      end
+    end
+
     describe 'namespace' do
       context 'when block does not take arguments' do
         before do
