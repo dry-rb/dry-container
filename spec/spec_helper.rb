@@ -1,3 +1,11 @@
+if ENV['COVERAGE'] == 'true' && RUBY_ENGINE == 'ruby' && RUBY_VERSION == '2.3.1'
+  require 'simplecov'
+
+  SimpleCov.start do
+    add_filter '/spec/'
+  end
+end
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -74,11 +82,6 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
-end
-
-if RUBY_ENGINE == 'rbx'
-  require 'codeclimate-test-reporter'
-  CodeClimate::TestReporter.start
 end
 
 require 'dry/container'
