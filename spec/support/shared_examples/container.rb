@@ -361,7 +361,7 @@ RSpec.shared_examples 'a container' do
 
     describe '#each' do
       let(:keys) { [:key_1, :key_2] }
-      let(:expected_key_value_pairs) { [['key_1', kind_of(Dry::Container::Item)], ['key_2', kind_of(Dry::Container::Item)]] }
+      let(:expected_key_value_pairs) { [['key_1', 'value_for_key_1'], ['key_2', 'value_for_key_2']] }
       let!(:yielded_key_value_pairs) { [] }
 
       before do
@@ -379,7 +379,7 @@ RSpec.shared_examples 'a container' do
       end
 
       it 'returns the container' do
-        is_expected.to eq(container)
+        is_expected.to eq(expected_key_value_pairs)
       end
     end
 

@@ -71,7 +71,7 @@ module Dry
       #       the registered keys, but to see what was registered would be very helpful. This is a step
       #       toward doing that.
       def each(container, &block)
-        container.each(&block)
+        container.map { |key, value| [key, value.call] }.each(&block)
       end
     end
   end
