@@ -296,6 +296,44 @@ RSpec.shared_examples 'a container' do
       end
     end
 
+    describe '#merge_from_hash' do
+      let(:key) { :key }
+      let(:hash) { { key => :item } }
+
+      context 'without namespace argument' do
+        subject! { container.merge_from_hash(hash) }
+
+        it { expect(container.resolve(key)).to be(:item) }
+        it { expect(container[key]).to be(:item) }
+      end
+
+      context 'with namespace argument' do
+        subject! { container.merge_from_hash(hash, namespace: namespace) }
+
+        context 'when namespace is nil' do
+          let(:namespace) { nil }
+
+          it { expect(container.resolve(key)).to be(:item) }
+          it { expect(container[key]).to be(:item) }
+        end
+
+        context 'when namespace is not nil' do
+          let(:namespace) { 'namespace' }
+
+          it { expect(container.resolve("#{namespace}.#{key}")).to be(:item) }
+          it { expect(container["#{namespace}.#{key}"]).to be(:item) }
+        end
+      end
+
+      it 'does not call when registering' do
+        hash[:other_key] = proc { :item }
+
+        container.merge_from_hash(hash)
+
+        expect(container.resolve(:other_key)).to be_a_kind_of(Proc)
+      end
+    end
+
     describe '#key?' do
       let(:key) { :key }
 
