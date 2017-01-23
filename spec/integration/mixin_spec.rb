@@ -25,7 +25,7 @@ RSpec.describe Dry::Container::Mixin do
       end
 
       it 'does not fail on missing member variable' do
-        expect { container.register :key, ->{} }.to_not raise_error
+        expect { container.register :key, -> {} }.to_not raise_error
       end
     end
   end

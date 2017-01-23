@@ -130,7 +130,7 @@ RSpec.shared_examples 'a container' do
           end
 
           it 'does not call a proc on resolving if one accepts an arbitrary number of keyword arguments' do
-            container.register(:item) { |**kw| 'item' }
+            container.register(:item) { |**| 'item' }
 
             expect(container.resolve(:item)).to be_a_kind_of Proc
             expect(container.resolve(:item).call).to eq('item')

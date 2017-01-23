@@ -48,7 +48,6 @@ module Dry
         container.keys
       end
 
-
       # Calls block once for each key in container, passing the key as a parameter.
       #
       # If no block is given, an enumerator is returned instead.

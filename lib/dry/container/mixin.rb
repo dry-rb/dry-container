@@ -1,6 +1,6 @@
 module Dry
   class Container
-    PREFIX_NAMESPACE = ->(namespace, key, config) do
+    PREFIX_NAMESPACE = lambda do |namespace, key, config|
       [namespace, key].join(config.namespace_separator)
     end
     # Mixin to expose Inversion of Control (IoC) container behaviour

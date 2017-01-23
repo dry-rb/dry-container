@@ -12,14 +12,7 @@ module Dry
           call: item.is_a?(::Proc) && item.parameters.empty?
         }.merge(options)
 
-        if options[:memoize] == true
-          raise(
-            ::Dry::Container::Error,
-            'Memoize only supported for a block or a proc'
-          ) unless item.is_a?(::Proc)
-          @memoize = true
-          @memoize_mutex = ::Mutex.new
-        end
+        setup_memoization if options[:memoize] == true
       end
 
       def call
@@ -33,6 +26,18 @@ module Dry
       end
 
       private
+
+      def setup_memoization
+        unless @item.is_a?(::Proc)
+          raise(
+            ::Dry::Container::Error,
+            'Memoize only supported for a block or a proc'
+          )
+        end
+
+        @memoize = true
+        @memoize_mutex = ::Mutex.new
+      end
 
       def memoized_item
         memoize_mutex.synchronize do

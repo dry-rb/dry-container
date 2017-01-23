@@ -28,6 +28,7 @@ module Dry
 
       # Stubs have already been enabled turning this into a noop
       def enable_stubs!
+        # DO NOTHING
       end
 
       private
