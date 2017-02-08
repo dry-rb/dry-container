@@ -34,8 +34,12 @@ module Dry
             raise Error, "There is already an item registered with the key #{key.inspect}"
           end
 
-          container[key] = ::Dry::Container::Item.new(item, options)
+          container[key] = factory.call(item, options)
         end
+      end
+
+      def factory
+        @factory ||= ::Dry::Container::Item::Factory.new
       end
     end
   end
