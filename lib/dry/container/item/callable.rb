@@ -6,7 +6,6 @@ module Dry
       # @api public
       #
       class Callable < Base
-
         # Returns the result of item call or item
         #
         # @return [Mixed]
@@ -24,4 +23,3 @@ module Dry
     end
   end
 end
-
