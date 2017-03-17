@@ -1,6 +1,6 @@
 module Dry
   class Container
     # @api public
-    class Error < ::StandardError; end
+    Error = Class.new(StandardError)
   end
 end
