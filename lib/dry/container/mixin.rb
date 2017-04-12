@@ -137,15 +137,30 @@ module Dry
       #
       # @api public
       def merge(other, namespace: nil)
-        if namespace
-          _container.merge!(
-            other._container.each_with_object(::Concurrent::Hash.new) do |a, h|
-              h[PREFIX_NAMESPACE.call(namespace, a.first, config)] = a.last
-            end
-          )
-        else
-          _container.merge!(other._container)
+        merge_from_container(other._container, namespace)
+
+        self
+      end
+
+      # Merge in the items of a hash
+      #
+      # @param [Hash] hash
+      #   The hash to merge in. Callable values are registered as they are, like
+      #   calling [#register] with `call: false`
+      # @param [Hash] options
+      # @option options [Symbol] :namespace
+      #   Namespace to prefix hash items with, defaults to nil
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      def merge_from_hash(hash, namespace: nil)
+        container = hash.each_with_object(::Concurrent::Hash.new) do |tuple, cont|
+          key, value = tuple
+          config.registry.call(cont, key, value, call: false)
         end
+
+        merge_from_container(container, namespace)
 
         self
       end
@@ -234,6 +249,20 @@ module Dry
       # @private no, really
       def _container
         @_container
+      end
+
+      private
+
+      def merge_from_container(container_hash, namespace)
+        if namespace
+          _container.merge!(
+            container_hash.each_with_object(::Concurrent::Hash.new) do |a, h|
+              h[PREFIX_NAMESPACE.call(namespace, a.first, config)] = a.last
+            end
+          )
+        else
+          _container.merge!(container_hash)
+        end
       end
     end
   end
