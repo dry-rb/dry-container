@@ -15,7 +15,7 @@ module Dry
         # @api abstract
         def initialize(item, options = {})
           @item = item
-          @options = @options = {
+          @options = {
             call: item.is_a?(::Proc) && item.parameters.empty?
           }.merge(options)
         end
