@@ -1,5 +1,5 @@
 require 'concurrent'
-require 'dry-configurable'
+require 'dry/core/class_attributes'
 require 'dry/container/error'
 require 'dry/container/item/base'
 require 'dry/container/item/memoizable'
