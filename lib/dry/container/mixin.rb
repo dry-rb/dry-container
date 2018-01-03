@@ -73,6 +73,18 @@ module Dry
           registry ::Dry::Container::Registry.new
           resolver ::Dry::Container::Resolver.new
           namespace_separator '.'
+
+          def registry
+            self.class.registry
+          end
+
+          def resolver
+            self.class.resolver
+          end
+
+          def namespace_separator
+            self.class.namespace_separator
+          end
         end
       end
 
@@ -99,7 +111,7 @@ module Dry
           item = contents
         end
 
-        _registry.call(_container, key, item, options)
+        registry.call(_container, key, item, options)
 
         self
       end
@@ -113,7 +125,7 @@ module Dry
       #
       # @api public
       def resolve(key)
-        _resolver.call(_container, key)
+        resolver.call(_container, key)
       end
 
       # Resolve an item from the container
@@ -144,7 +156,7 @@ module Dry
         if namespace
           _container.merge!(
             other._container.each_with_object(::Concurrent::Hash.new) do |a, h|
-              h[PREFIX_NAMESPACE.call(namespace, a.first, _namespace_separator)] = a.last
+              h[PREFIX_NAMESPACE.call(namespace, a.first, namespace_separator)] = a.last
             end
           )
         else
@@ -163,7 +175,7 @@ module Dry
       #
       # @api public
       def key?(key)
-        _resolver.key?(_container, key)
+        resolver.key?(_container, key)
       end
 
       # An array of registered names for the container
@@ -172,7 +184,7 @@ module Dry
       #
       # @api public
       def keys
-        _resolver.keys(_container)
+        resolver.keys(_container)
       end
 
       # Calls block once for each key in container, passing the key as a parameter.
@@ -183,7 +195,7 @@ module Dry
       #
       # @api public
       def each_key(&block)
-        _resolver.each_key(_container, &block)
+        resolver.each_key(_container, &block)
         self
       end
 
@@ -199,7 +211,7 @@ module Dry
       #       the registered keys, but to see what was registered would be very helpful. This is a step
       #       toward doing that.
       def each(&block)
-        _resolver.each(_container, &block)
+        resolver.each(_container, &block)
       end
 
       # Evaluate block and register items in namespace
@@ -214,7 +226,7 @@ module Dry
         ::Dry::Container::NamespaceDSL.new(
           self,
           namespace,
-          _namespace_separator,
+          namespace_separator,
           &block
         )
 
@@ -238,18 +250,6 @@ module Dry
       # @private no, really
       def _container
         @_container
-      end
-
-      def _registry
-        respond_to?(:registry) ? registry : self.class.registry
-      end
-
-      def _resolver
-        respond_to?(:resolver) ? resolver : self.class.resolver
-      end
-
-      def _namespace_separator
-        respond_to?(:namespace_separator) ? namespace_separator : self.class.namespace_separator
       end
     end
   end
