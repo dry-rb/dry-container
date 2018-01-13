@@ -5,12 +5,12 @@ module Dry
       #
       # @api public
       def resolve(key)
-        _stubs.fetch(key) { super }
+        _stubs.fetch(key.to_s) { super }
       end
 
       # Add a stub to the container
       def stub(key, value, &block)
-        _stubs[key] = value
+        _stubs[key.to_s] = value
 
         if block
           yield
@@ -23,7 +23,7 @@ module Dry
       # Remove stubbed keys from the container
       def unstub(*keys)
         keys = _stubs.keys if keys.empty?
-        keys.each { |key| _stubs.delete(key) }
+        keys.each { |key| _stubs.delete(key.to_s) }
       end
 
       # Stubs have already been enabled turning this into a noop

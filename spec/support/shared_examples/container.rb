@@ -487,5 +487,12 @@ RSpec.shared_examples 'a container' do
         expect(container.resolve(:item)).to eql('item')
       end
     end
+
+    describe 'mixing Strings and Symbols' do
+      it do
+        container.stub(:item, 'stub')
+        expect(container.resolve('item')).to eql('stub')
+      end
+    end
   end
 end
