@@ -145,8 +145,7 @@ module Dry
       #
       # @param [Dry::Container] other
       #   The other container to merge in
-      # @param [Hash] options
-      # @option options [Symbol] :namespace
+      # @param [Symbol, nil] namespace
       #   Namespace to prefix other container items with, defaults to nil
       #
       # @return [Dry::Container::Mixin] self
