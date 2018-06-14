@@ -43,6 +43,10 @@ module Dry
         self
       end
 
+      def resolve(key)
+        super(namespaced(key))
+      end
+
       private
 
       def namespaced(key)
