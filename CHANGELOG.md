@@ -1,5 +1,9 @@
 ## v0.7.0
 
+## Changed
+
+* [BREAKING] Now only Ruby 2.3 and above is supported ([flash-gordon](https://github.com/flash-gordon))
+
 ## Fixed
 
 * Symbols are now coerced to strings when resolving stubbed dependencies ([cthulhu666](https://github.com/cthulhu666))
