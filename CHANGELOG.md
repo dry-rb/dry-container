@@ -23,7 +23,8 @@
   container.resolve('create_user')
   # => #<ShinyLogger @obj=#<CreateUser:0x...>]>
   ```
-  
+* Freezing a container now prevents further registrations ([flash-gordon](https://github.com/flash-gordon))
+
 ## Internal
 
 * Handling container items was generalized in [#34](https://github.com/dry-rb/dry-container/pull/34) ([GabrielMalakias](https://github.com/GabrielMalakias))

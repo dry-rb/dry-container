@@ -165,7 +165,7 @@ module Dry
         self
       end
 
-      # Check whether an items is registered under the given key
+      # Check whether an item is registered under the given key
       #
       # @param [Mixed] key
       #   The key you wish to check for registration with
@@ -263,6 +263,14 @@ module Dry
         namespace(namespace.name, &namespace.block)
 
         self
+      end
+
+      # Freeze the container. Nothing can be registered after freezing
+      #
+      # @api public
+      def freeze
+        super
+        _container.freeze
       end
 
       # @private no, really
