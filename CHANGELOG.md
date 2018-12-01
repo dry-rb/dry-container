@@ -1,4 +1,32 @@
-## Unreleased
+## v0.7.0
+
+## Fixed
+
+* Symbols are now coerced to strings when resolving stubbed dependencies ([cthulhu666](https://github.com/cthulhu666))
+
+## Added
+
+* Namespace DSL resolves keys relative to the current namespace, see the corresponding [changes](https://github.com/dry-rb/dry-container/pull/47) ([yuszuv](https://github.com/yuszuv))
+* Registered objects can be decorated with the following API ([igor-alexandrov](https://github.com/igor-alexandrov))
+
+  ```ruby
+  class CreateUser
+    def call(params)
+      # ...
+    end
+  end
+  container.register('create_user') { CreateUser.new }
+  container.decorate('create_user', decorator: ShinyLogger.new)
+
+  # Now subsequent resolutions will return a wrapped object
+
+  container.resolve('create_user')
+  # => #<ShinyLogger @obj=#<CreateUser:0x...>]>
+  ```
+  
+## Internal
+
+* Handling container items was generalized in [#34](https://github.com/dry-rb/dry-container/pull/34) ([GabrielMalakias](https://github.com/GabrielMalakias))
 
 [Compare v0.6.0...HEAD](https://github.com/dry-rb/dry-container/compare/v0.6.0...HEAD)
 
