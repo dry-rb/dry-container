@@ -371,6 +371,34 @@ RSpec.shared_examples 'a container' do
       end
     end
 
+    describe '#decorate' do
+      require 'delegate'
+
+      let(:key) { :key }
+
+      context 'for callable item' do
+        before do
+          container.register(key) { "value" }
+          container.decorate(key, decorator: SimpleDelegator)
+        end
+
+        it 'expected to be an instance of SimpleDelegator' do
+          expect(container.resolve(key)).to be_instance_of(SimpleDelegator)
+          expect(container.resolve(key).__getobj__).to eql("value")
+        end
+      end
+
+      context 'for not callable item' do
+        before do
+          container.register(key, call: false) { "value" }
+        end
+
+        it 'expected to be an instance of SimpleDelegator' do
+          expect { container.decorate(key, decorator: SimpleDelegator) }.to raise_error(Dry::Container::Error)
+        end
+      end
+    end
+
     describe 'namespace' do
       context 'when block does not take arguments' do
         before do

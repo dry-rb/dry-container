@@ -213,6 +213,25 @@ module Dry
         resolver.each(_container, &block)
       end
 
+      # Decorates an item from the container with specified decorator
+      #
+      # Raises an error if applied to not callable items
+      #
+      # @return [Dry::Container::Mixin] self
+      #
+      # @api public
+      def decorate(key, decorator:)
+        original = _container.delete(key.to_s) do
+          raise Error, "Nothing registered with the key #{key.inspect}"
+        end
+
+        if original.options[:call] && decorator.is_a?(Class)
+          register(key, decorator.new(original.call))
+        else
+          raise Error, "#{key.inspect} is not callable"
+        end
+      end
+
       # Evaluate block and register items in namespace
       #
       # @param [Mixed] namespace
