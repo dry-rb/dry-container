@@ -537,6 +537,11 @@ RSpec.shared_examples 'a container' do
         expect(container.resolve('item')).to eql('stub')
       end
     end
+
+    it 'raises an error when key is missing' do
+      expect { container.stub(:non_existing, 'something') }.
+        to raise_error(ArgumentError, 'cannot stub "non_existing" - no such key in container')
+    end
   end
 
   describe '.freeze' do

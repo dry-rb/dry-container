@@ -7,6 +7,7 @@
 ## Fixed
 
 * Symbols are now coerced to strings when resolving stubbed dependencies ([cthulhu666](https://github.com/cthulhu666))
+* Stubbing keys not present in container will raise an error ([flash-gordon](https://github.com/flash-gordon))
 
 ## Added
 
