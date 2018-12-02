@@ -215,8 +215,6 @@ module Dry
 
       # Decorates an item from the container with specified decorator
       #
-      # Raises an error if applied to not callable items
-      #
       # @return [Dry::Container::Mixin] self
       #
       # @api public
