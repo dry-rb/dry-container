@@ -379,7 +379,7 @@ RSpec.shared_examples 'a container' do
       context 'for callable item' do
         before do
           container.register(key) { "value" }
-          container.decorate(key, decorator: SimpleDelegator)
+          container.decorate(key, with: SimpleDelegator)
         end
 
         it 'expected to be an instance of SimpleDelegator' do
@@ -391,10 +391,12 @@ RSpec.shared_examples 'a container' do
       context 'for not callable item' do
         before do
           container.register(key, call: false) { "value" }
+          container.decorate(key, with: SimpleDelegator)
         end
 
         it 'expected to be an instance of SimpleDelegator' do
-          expect { container.decorate(key, decorator: SimpleDelegator) }.to raise_error(Dry::Container::Error)
+          expect(container.resolve(key)).to be_instance_of(SimpleDelegator)
+          expect(container.resolve(key).__getobj__.call).to eql("value")
         end
       end
     end

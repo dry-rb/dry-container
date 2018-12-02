@@ -21,7 +21,7 @@
     end
   end
   container.register('create_user') { CreateUser.new }
-  container.decorate('create_user', decorator: ShinyLogger.new)
+  container.decorate('create_user', with: ShinyLogger.new)
 
   # Now subsequent resolutions will return a wrapped object
 

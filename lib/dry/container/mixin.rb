@@ -220,15 +220,17 @@ module Dry
       # @return [Dry::Container::Mixin] self
       #
       # @api public
-      def decorate(key, decorator:)
+      def decorate(key, with:)
         original = _container.delete(key.to_s) do
           raise Error, "Nothing registered with the key #{key.inspect}"
         end
 
-        if original.options[:call] && decorator.is_a?(Class)
+        decorator = with
+
+        if decorator.is_a?(Class)
           register(key, decorator.new(original.call))
         else
-          raise Error, "#{key.inspect} is not callable"
+          register(key, decorator)
         end
       end
 
