@@ -557,5 +557,9 @@ RSpec.shared_examples 'a container' do
       expect { container.register(:baz, 'quux') }.to raise_error(error)
       expect(container).to be_frozen
     end
+
+    it 'returns self back' do
+      expect(container.freeze).to be(container)
+    end
   end
 end

@@ -271,6 +271,7 @@ module Dry
       def freeze
         super
         _container.freeze
+        self
       end
 
       # @private no, really
