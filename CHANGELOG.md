@@ -8,6 +8,12 @@
 
 * Symbols are now coerced to strings when resolving stubbed dependencies ([cthulhu666](https://github.com/cthulhu666))
 * Stubbing keys not present in container will raise an error ([flash-gordon](https://github.com/flash-gordon))
+  
+  This means after upgrading you may see errors like this
+  ```
+  ArgumentError (cannot stub "something" - no such key in container)
+  ```
+  Be sure you register dependencies before using them. The new behavior will likely save quite a bit of time when debugging ill-configured container setups.
 
 ## Added
 
