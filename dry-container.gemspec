@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Andy Holland']
   spec.email         = ['andyholland1991@aol.com']
   spec.summary       = 'A simple container intended for use as an IoC container'
-  spec.homepage      = 'https://github.com/dryrb/dry-container'
+  spec.homepage      = 'https://github.com/dry-rb/dry-container'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
