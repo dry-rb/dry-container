@@ -1,7 +1,7 @@
 module Dry
   class Container
-    PREFIX_NAMESPACE = lambda do |namespace, key, namespace_separator|
-      [namespace, key].join(namespace_separator)
+    PREFIX_NAMESPACE = lambda do |namespace, key, config|
+      [namespace, key].join(config.namespace_separator)
     end
     # Mixin to expose Inversion of Control (IoC) container behaviour
     #
@@ -37,16 +37,12 @@ module Dry
         end
 
         base.class_eval do
-          extend ::Dry::Core::ClassAttributes
+          extend ::Dry::Configurable
           extend hooks_mod
 
-          defines :registry
-          defines :resolver
-          defines :namespace_separator
-
-          registry ::Dry::Container::Registry.new
-          resolver ::Dry::Container::Resolver.new
-          namespace_separator '.'
+          setting :registry, ::Dry::Container::Registry.new
+          setting :resolver, ::Dry::Container::Resolver.new
+          setting :namespace_separator, '.'
 
           @_container = ::Concurrent::Hash.new
         end
@@ -63,27 +59,15 @@ module Dry
       # @private
       def self.included(base)
         base.class_eval do
-          extend ::Dry::Core::ClassAttributes
+          extend ::Dry::Configurable
           prepend Initializer
 
-          defines :registry
-          defines :resolver
-          defines :namespace_separator
+          setting :registry, ::Dry::Container::Registry.new
+          setting :resolver, ::Dry::Container::Resolver.new
+          setting :namespace_separator, '.'
 
-          registry ::Dry::Container::Registry.new
-          resolver ::Dry::Container::Resolver.new
-          namespace_separator '.'
-
-          def registry
-            self.class.registry
-          end
-
-          def resolver
-            self.class.resolver
-          end
-
-          def namespace_separator
-            self.class.namespace_separator
+          def config
+            self.class.config
           end
         end
       end
@@ -111,7 +95,7 @@ module Dry
           item = contents
         end
 
-        registry.call(_container, key, item, options)
+        config.registry.call(_container, key, item, options)
 
         self
       end
@@ -125,7 +109,7 @@ module Dry
       #
       # @api public
       def resolve(key)
-        resolver.call(_container, key)
+        config.resolver.call(_container, key)
       end
 
       # Resolve an item from the container
@@ -155,7 +139,7 @@ module Dry
         if namespace
           _container.merge!(
             other._container.each_with_object(::Concurrent::Hash.new) do |a, h|
-              h[PREFIX_NAMESPACE.call(namespace, a.first, namespace_separator)] = a.last
+              h[PREFIX_NAMESPACE.call(namespace, a.first, config)] = a.last
             end
           )
         else
@@ -174,7 +158,7 @@ module Dry
       #
       # @api public
       def key?(key)
-        resolver.key?(_container, key)
+        config.resolver.key?(_container, key)
       end
 
       # An array of registered names for the container
@@ -183,7 +167,7 @@ module Dry
       #
       # @api public
       def keys
-        resolver.keys(_container)
+        config.resolver.keys(_container)
       end
 
       # Calls block once for each key in container, passing the key as a parameter.
@@ -194,7 +178,7 @@ module Dry
       #
       # @api public
       def each_key(&block)
-        resolver.each_key(_container, &block)
+        config.resolver.each_key(_container, &block)
         self
       end
 
@@ -210,7 +194,7 @@ module Dry
       #       the registered keys, but to see what was registered would be very helpful. This is a step
       #       toward doing that.
       def each(&block)
-        resolver.each(_container, &block)
+        config.resolver.each(_container, &block)
       end
 
       # Decorates an item from the container with specified decorator
@@ -244,7 +228,7 @@ module Dry
         ::Dry::Container::NamespaceDSL.new(
           self,
           namespace,
-          namespace_separator,
+          config.namespace_separator,
           &block
         )
 
