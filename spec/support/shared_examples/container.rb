@@ -2,7 +2,7 @@ RSpec.shared_examples 'a container' do
   describe 'configuration' do
     describe 'registry' do
       describe 'default' do
-        it { expect(klass.registry).to be_a(Dry::Container::Registry) }
+        it { expect(klass.config.registry).to be_a(Dry::Container::Registry) }
       end
 
       describe 'custom' do
@@ -12,7 +12,9 @@ RSpec.shared_examples 'a container' do
         let(:options) { {} }
 
         before do
-          klass.registry custom_registry
+          klass.configure do |config|
+            config.registry = custom_registry
+          end
 
           allow(custom_registry).to receive(:call)
         end
@@ -20,7 +22,9 @@ RSpec.shared_examples 'a container' do
         after do
           # HACK: Have to reset the configuration so that it doesn't
           # interfere with other specs
-          klass.registry Dry::Container::Registry.new
+          klass.configure do |config|
+            config.registry = Dry::Container::Registry.new
+          end
         end
 
         subject! { container.register(key, item, options) }
@@ -38,7 +42,7 @@ RSpec.shared_examples 'a container' do
 
     describe 'resolver' do
       describe 'default' do
-        it { expect(klass.resolver).to be_a(Dry::Container::Resolver) }
+        it { expect(klass.config.resolver).to be_a(Dry::Container::Resolver) }
       end
 
       describe 'custom' do
@@ -47,7 +51,9 @@ RSpec.shared_examples 'a container' do
         let(:key) { :key }
 
         before do
-          klass.resolver custom_resolver
+          klass.configure do |config|
+            config.resolver = custom_resolver
+          end
 
           allow(custom_resolver).to receive(:call).and_return(item)
         end
@@ -55,7 +61,9 @@ RSpec.shared_examples 'a container' do
         after do
           # HACK: Have to reset the configuration so that it doesn't
           # interfere with other specs
-          klass.resolver Dry::Container::Resolver.new
+          klass.configure do |config|
+            config.resolver = Dry::Container::Resolver.new
+          end
         end
 
         subject! { container.resolve(key) }
@@ -67,7 +75,7 @@ RSpec.shared_examples 'a container' do
 
     describe 'namespace_separator' do
       describe 'default' do
-        it { expect(klass.namespace_separator).to eq('.') }
+        it { expect(klass.config.namespace_separator).to eq('.') }
       end
 
       describe 'custom' do
@@ -77,7 +85,9 @@ RSpec.shared_examples 'a container' do
         let(:namespace) { 'one' }
 
         before do
-          klass.namespace_separator namespace_separator
+          klass.configure do |config|
+            config.namespace_separator = namespace_separator
+          end
 
           container.namespace(namespace) do
             register('key', 'item')
@@ -87,7 +97,9 @@ RSpec.shared_examples 'a container' do
         after do
           # HACK: Have to reset the configuration so that it doesn't
           # interfere with other specs
-          klass.namespace_separator '.'
+          klass.configure do |config|
+            config.namespace_separator = '.'
+          end
         end
 
         subject! { container.resolve([namespace, key].join(namespace_separator)) }

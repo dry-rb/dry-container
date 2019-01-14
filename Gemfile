@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'dry-configurable', git: 'https://github.com/dry-rb/dry-configurable'
+
 group :test do
   platforms :mri do
     gem 'codeclimate-test-reporter', require: false
