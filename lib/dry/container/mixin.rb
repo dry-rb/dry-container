@@ -1,3 +1,6 @@
+
+require 'concurrent/hash'
+
 module Dry
   class Container
     PREFIX_NAMESPACE = lambda do |namespace, key, config|

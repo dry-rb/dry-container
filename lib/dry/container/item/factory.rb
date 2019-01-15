@@ -1,3 +1,6 @@
+require 'dry/container/item/memoizable'
+require 'dry/container/item/callable'
+
 module Dry
   class Container
     class Item

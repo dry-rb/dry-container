@@ -1,3 +1,5 @@
+require 'dry/container/item'
+
 module Dry
   class Container
     class Item
@@ -5,7 +7,7 @@ module Dry
       #
       # @api public
       #
-      class Memoizable < Base
+      class Memoizable < Item
         # @return [Mutex] the stored mutex
         attr_reader :memoize_mutex
 

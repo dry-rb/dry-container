@@ -1,3 +1,5 @@
+require 'dry/container/item'
+
 module Dry
   class Container
     class Item
@@ -5,7 +7,7 @@ module Dry
       #
       # @api public
       #
-      class Callable < Base
+      class Callable < Item
         # Returns the result of item call or item
         #
         # @return [Mixed]

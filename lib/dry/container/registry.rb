@@ -1,3 +1,5 @@
+require 'dry/container/item/factory'
+
 module Dry
   class Container
     # Default registry for registering items with the container
