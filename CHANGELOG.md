@@ -1,4 +1,4 @@
-## v0.7.0
+## v0.7.0 - 2019-02-05
 
 ## Changed
 
@@ -42,7 +42,7 @@
 
 [Compare v0.6.0...HEAD](https://github.com/dry-rb/dry-container/compare/v0.6.0...HEAD)
 
-## v0.6.0
+## v0.6.0 - 2019-12-09
 
 ## Added
 
@@ -54,7 +54,7 @@
 
 [Compare v0.5.0...v0.6.0](https://github.com/dry-rb/dry-container/compare/v0.5.0...v0.6.0)
 
-## v0.5.0
+## v0.5.0 - 2016-08-31
 
 ## Added
 
