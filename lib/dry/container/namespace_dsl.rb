@@ -1,3 +1,5 @@
+require 'delegate'
+
 module Dry
   class Container
     # @api private
