@@ -8,7 +8,7 @@
 
 * Symbols are now coerced to strings when resolving stubbed dependencies ([cthulhu666](https://github.com/cthulhu666))
 * Stubbing keys not present in container will raise an error ([flash-gordon](https://github.com/flash-gordon))
-  
+
   This means after upgrading you may see errors like this
   ```
   ArgumentError (cannot stub "something" - no such key in container)
@@ -40,7 +40,7 @@
 
 * Handling container items was generalized in [#34](https://github.com/dry-rb/dry-container/pull/34) ([GabrielMalakias](https://github.com/GabrielMalakias))
 
-[Compare v0.6.0...HEAD](https://github.com/dry-rb/dry-container/compare/v0.6.0...HEAD)
+[Compare v0.6.0...HEAD](https://github.com/dry-rb/dry-container/compare/v0.6.0...v0.7.0)
 
 ## v0.6.0 - 2019-12-09
 
