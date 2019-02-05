@@ -40,7 +40,7 @@
 
 * Handling container items was generalized in [#34](https://github.com/dry-rb/dry-container/pull/34) ([GabrielMalakias](https://github.com/GabrielMalakias))
 
-[Compare v0.6.0...HEAD](https://github.com/dry-rb/dry-container/compare/v0.6.0...v0.7.0)
+[Compare v0.6.0...0.7.0](https://github.com/dry-rb/dry-container/compare/v0.6.0...v0.7.0)
 
 ## v0.6.0 - 2019-12-09
 
