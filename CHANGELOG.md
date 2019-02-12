@@ -42,7 +42,7 @@
 
 [Compare v0.6.0...0.7.0](https://github.com/dry-rb/dry-container/compare/v0.6.0...v0.7.0)
 
-## v0.6.0 - 2019-12-09
+## v0.6.0 - 2018-12-09
 
 ## Added
 
