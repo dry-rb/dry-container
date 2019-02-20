@@ -472,6 +472,24 @@ RSpec.shared_examples 'a container' do
           is_expected.to eq(2)
         end
       end
+
+      context 'with nesting and when block takes non namespaced argument' do
+        before do
+          container.namespace('one') do |c|
+            c.register('two', 2)
+          end
+
+          container.namespace('three') do |c|
+            c.register('four', c.resolve('one.two', namespaced: false))
+          end
+        end
+
+        subject! { container.resolve('three.four') }
+
+        it 'resolves items relative to the namespace' do
+          is_expected.to eq(2)
+        end
+      end
     end
 
     describe 'import' do

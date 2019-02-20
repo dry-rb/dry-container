@@ -45,8 +45,20 @@ module Dry
         self
       end
 
-      def resolve(key)
-        super(namespaced(key))
+      # Overrides resolve to look into namespace keys first
+      #
+      # @param [Mixed] key
+      #   The key for the item you wish to resolve
+      # @param [Bool] namespaced
+      #   Indicates whether or not the key will be namespaced, defaults to true
+      #
+      # @return [Mixed]
+      #
+      # @api public
+      def resolve(key, namespaced: true)
+        key = namespaced(key) if namespaced
+
+        super(key)
       end
 
       private
