@@ -387,16 +387,41 @@ RSpec.shared_examples 'a container' do
       require 'delegate'
 
       let(:key) { :key }
+      let(:decorated_class_spy) { spy(:decorated_class_spy) }
+      let(:decorated_class) { Class.new }
 
       context 'for callable item' do
         before do
-          container.register(key) { "value" }
+          allow(decorated_class_spy).to receive(:new) { decorated_class.new }
+          container.register(key, memoize: memoize) { decorated_class_spy.new }
           container.decorate(key, with: SimpleDelegator)
         end
 
-        it 'expected to be an instance of SimpleDelegator' do
-          expect(container.resolve(key)).to be_instance_of(SimpleDelegator)
-          expect(container.resolve(key).__getobj__).to eql("value")
+        context 'memoize false' do
+          let(:memoize) { false }
+
+          it 'does not call the block until the key is resolved' do
+            expect(decorated_class_spy).not_to have_received(:new)
+            container.resolve(key)
+            expect(decorated_class_spy).to have_received(:new)
+          end
+
+          specify do
+            expect(container[key]).to be_instance_of(SimpleDelegator)
+            expect(container[key].__getobj__).to be_instance_of(decorated_class)
+            expect(container[key]).not_to be(container[key])
+            expect(container[key].__getobj__).not_to be(container[key].__getobj__)
+          end
+        end
+
+        context 'memoize true' do
+          let(:memoize) { true }
+
+          specify do
+            expect(container[key]).to be_instance_of(SimpleDelegator)
+            expect(container[key].__getobj__).to be_instance_of(decorated_class)
+            expect(container[key]).to be(container[key])
+          end
         end
       end
 

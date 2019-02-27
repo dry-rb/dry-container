@@ -211,9 +211,10 @@ module Dry
         end
 
         decorator = with
+        memoize = original.is_a?(Item::Memoizable)
 
         if decorator.is_a?(Class)
-          register(key, decorator.new(original.call))
+          register(key, memoize: memoize) { decorator.new(original.call) }
         else
           register(key, decorator)
         end
