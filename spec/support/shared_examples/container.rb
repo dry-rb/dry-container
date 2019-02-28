@@ -318,6 +318,18 @@ RSpec.shared_examples 'a container' do
       end
     end
 
+    describe '#has_key? is alias of #key? for spec matching' do
+      let(:key) { :key }
+
+      before do
+        container.register(key) { :item }
+      end
+
+      subject! { container }
+
+      it { is_expected.to have_key(key) }
+    end
+
     describe '#keys' do
       let(:keys) { [:key_1, :key_2] }
       let(:expected_keys) { ['key_1', 'key_2'] }

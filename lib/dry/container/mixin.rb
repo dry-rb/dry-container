@@ -163,6 +163,7 @@ module Dry
       def key?(key)
         config.resolver.key?(_container, key)
       end
+      alias has_key? key?
 
       # An array of registered names for the container
       #
