@@ -437,16 +437,20 @@ RSpec.shared_examples 'a container' do
         end
       end
 
-      context 'with instance as a decorator' do
-        let(:decorator) { double }
+      context 'with an instance as a decorator' do
+        let(:decorator) do
+          double.tap do |decorator|
+            allow(decorator).to receive(:call) { |input| "decorated #{input}" }
+          end
+        end
 
         before do
           container.register(key) { "value" }
           container.decorate(key, with: decorator)
         end
 
-        it 'expected to override the registrated key' do
-          expect(container.resolve(key)).to be(decorator)
+        it 'expected to pass original value to decorator#call method' do
+          expect(container.resolve(key)).to eq("decorated value")
         end
       end
     end
