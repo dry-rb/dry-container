@@ -436,6 +436,19 @@ RSpec.shared_examples 'a container' do
           expect(container.resolve(key).__getobj__.call).to eql("value")
         end
       end
+
+      context 'with instance as a decorator' do
+        let(:decorator) { double }
+
+        before do
+          container.register(key) { "value" }
+          container.decorate(key, with: decorator)
+        end
+
+        it 'expected to override the registrated key' do
+          expect(container.resolve(key)).to be(decorator)
+        end
+      end
     end
 
     describe 'namespace' do
