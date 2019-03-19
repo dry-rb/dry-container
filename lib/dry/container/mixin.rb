@@ -214,10 +214,14 @@ module Dry
         memoize = original.is_a?(Item::Memoizable)
 
         if decorator.is_a?(Class)
-          register(key, memoize: memoize) { decorator.new(original.call) }
+          decorated = -> { decorator.new(original.call) }
+        elsif decorator.respond_to?(:call)
+          decorated = -> { decorator.call(original.call) }
         else
-          register(key, decorator)
+          raise Error, "Decorator needs to be a Class or responds to the `call` method"
         end
+
+        register(key, memoize: memoize, &decorated)
       end
 
       # Evaluate block and register items in namespace
