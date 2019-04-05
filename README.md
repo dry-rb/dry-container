@@ -1,11 +1,11 @@
-[gitter]: https://gitter.im/dry-rb/chat
 [gem]: https://rubygems.org/gems/dry-container
 [travis]: https://travis-ci.org/dry-rb/dry-container
 [maintainability]: https://codeclimate.com/github/dry-rb/dry-container/maintainability
 [test_coverage]: https://codeclimate.com/github/dry-rb/dry-container/test_coverage
 [inch]: http://inch-ci.org/github/dry-rb/dry-container
+[chat]: https://dry-rb.zulipchat.com
 
-# dry-container [![Join the Gitter chat](https://badges.gitter.im/Join%20Chat.svg)][gitter]
+# dry-container [![Join the chat at https://dry-rb.zulipchat.com](https://img.shields.io/badge/dry--rb-join%20chat-%23346b7a.svg)][chat]
 
 [![Gem Version](https://img.shields.io/gem/v/dry-container.svg)][gem]
 [![Build Status](https://img.shields.io/travis/dry-rb/dry-container.svg)][travis]
