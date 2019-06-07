@@ -270,6 +270,22 @@ module Dry
       def _container
         @_container
       end
+
+      # @api public
+      def dup
+        copy = super
+        copy.instance_variable_set(:@_container, _container.dup)
+        copy
+      end
+
+      # @api public
+      def clone
+        copy = super
+        unless copy.frozen?
+          copy.instance_variable_set(:@_container, _container.dup)
+        end
+        copy
+      end
     end
   end
 end
