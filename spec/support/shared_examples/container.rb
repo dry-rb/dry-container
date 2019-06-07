@@ -616,4 +616,23 @@ RSpec.shared_examples 'a container' do
       expect(container.freeze).to be(container)
     end
   end
+
+  describe '.dup' do
+    it "returns a copy that doesn't share registered keys with the parent" do
+      container.dup.register(:foo, 'bar')
+      expect(container.key?(:foo)).to be false
+    end
+  end
+
+  describe '.clone' do
+    it "returns a copy that doesn't share registered keys with the parent" do
+      container.clone.register(:foo, 'bar')
+      expect(container.key?(:foo)).to be false
+    end
+
+    it 're-uses frozen container' do
+      expect(container.freeze.clone).to be_frozen
+      expect(container.clone._container).to be(container._container)
+    end
+  end
 end
