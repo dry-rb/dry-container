@@ -1,3 +1,11 @@
+## v0.7.1 - 2019-06-07
+
+## Fixed
+
+* Added `Mixin#dup` and `Mixin#clone`, now copies don't share underlying containers (flash-gordon)
+
+[Compare v0.7.0...0.7.1](https://github.com/dry-rb/dry-container/compare/v0.7.0...v0.7.1)
+
 ## v0.7.0 - 2019-02-05
 
 ## Changed
