@@ -10,16 +10,24 @@ module Dry
       #   The container
       # @param [Mixed] key
       #   The key for the item you wish to resolve
+      # @yield
+      #   Fallback block to call when a key is missing. Its result will be returned
+      # @yieldparam [Mixed] key Missing key
       #
       # @raise [Dry::Conainer::Error]
-      #   If the given key is not registered with the container
+      #   If the given key is not registered with the container (and no block provided)
+      #
       #
       # @return [Mixed]
       #
       # @api public
       def call(container, key)
         item = container.fetch(key.to_s) do
-          raise Error, "Nothing registered with the key #{key.inspect}"
+          if block_given?
+            return yield(key)
+          else
+            raise Error, "Nothing registered with the key #{key.inspect}"
+          end
         end
 
         item.call

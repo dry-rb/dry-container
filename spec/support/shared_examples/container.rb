@@ -635,4 +635,10 @@ RSpec.shared_examples 'a container' do
       expect(container.clone._container).to be(container._container)
     end
   end
+
+  describe '.resolve' do
+    it 'accepts a fallback block' do
+      expect(container.resolve('missing') { :fallback }).to be(:fallback)
+    end
+  end
 end
