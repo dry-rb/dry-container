@@ -1,3 +1,12 @@
+## v0.7.2 - unreleased
+
+## Added
+
+* `.resolve` accepts an optional fallback block, similar to how `Hash#fetch` works (flash-gordon)
+  ```ruby
+  container.resolve('missing_key') { :fallback } # => :fallback
+  ```
+
 ## v0.7.1 - 2019-06-07
 
 ## Fixed
