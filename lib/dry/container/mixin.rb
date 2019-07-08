@@ -107,12 +107,15 @@ module Dry
       #
       # @param [Mixed] key
       #   The key for the item you wish to resolve
+      # @yield
+      #   Fallback block to call when a key is missing. Its result will be returned
+      # @yieldparam [Mixed] key Missing key
       #
       # @return [Mixed]
       #
       # @api public
-      def resolve(key)
-        config.resolver.call(_container, key)
+      def resolve(key, &block)
+        config.resolver.call(_container, key, &block)
       end
 
       # Resolve an item from the container
