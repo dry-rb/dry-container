@@ -6,6 +6,9 @@ module Dry
     PREFIX_NAMESPACE = lambda do |namespace, key, config|
       [namespace, key].join(config.namespace_separator)
     end
+
+    EMPTY_HASH = {}.freeze
+
     # Mixin to expose Inversion of Control (IoC) container behaviour
     #
     # @example
@@ -90,7 +93,7 @@ module Dry
       # @return [Dry::Container::Mixin] self
       #
       # @api public
-      def register(key, contents = nil, options = {}, &block)
+      def register(key, contents = nil, options = EMPTY_HASH, &block)
         if block_given?
           item = block
           options = contents if contents.is_a?(::Hash)
@@ -208,23 +211,22 @@ module Dry
       # @return [Dry::Container::Mixin] self
       #
       # @api public
-      def decorate(key, with:)
-        original = _container.delete(key.to_s) do
+      def decorate(key, with: nil, &block)
+        key = key.to_s
+        original = _container.delete(key) do
           raise Error, "Nothing registered with the key #{key.inspect}"
         end
 
-        decorator = with
-        memoize = original.is_a?(Item::Memoizable)
-
-        if decorator.is_a?(Class)
-          decorated = -> { decorator.new(original.call) }
-        elsif decorator.respond_to?(:call)
-          decorated = -> { decorator.call(original.call) }
+        if with.is_a?(Class)
+          decorator = with.method(:new)
+        elsif block.nil? && !with.respond_to?(:call)
+          raise Error, "Decorator needs to be a Class, block, or respond to the `call` method"
         else
-          raise Error, "Decorator needs to be a Class or responds to the `call` method"
+          decorator = with || block
         end
 
-        register(key, memoize: memoize, &decorated)
+        _container[key] = original.map(decorator)
+        self
       end
 
       # Evaluate block and register items in namespace
