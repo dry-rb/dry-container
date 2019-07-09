@@ -1,32 +1,15 @@
-engines:
-  rubocop:
-    enabled: true
-    checks:
-      Rubocop/Metrics/LineLength:
-        enabled: true
-        max: 120
-      Rubocop/Style/Documentation:
-        enabled: false
-      Rubocop/Lint/HandleExceptions:
-        enabled: true
-        exclude:
-          - rakelib/*.rake
-      Rubocop/Lint/NestedMethodDefinition:
-        enabled: true
-        exclude:
-          - lib/dry/container/mixin.rb
-      Rubocop/Metrics/MethodLength:
-        enabled: true
-        exclude:
-          - lib/dry/container/mixin.rb
-      Rubocop/Style/FileName:
-        enabled: true
-        exclude:
-          - lib/dry-container.rb
+version: "2"
 
-ratings:
-  paths:
-    - lib/**/*.rb
-  exclude_paths:
-    - spec/**/*
-    - examples/**/*
+prepare:
+  fetch:
+  - url: "https://raw.githubusercontent.com/dry-rb/devtools/master/.rubocop.yml"
+    path: ".rubocop.yml"
+
+exclude_patterns:
+  - "benchmarks/"
+  - "examples/"
+  - "spec/"
+
+plugins:
+  rubocop:
+enabled: true
