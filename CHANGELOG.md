@@ -1,11 +1,19 @@
-## v0.7.2 - unreleased
+## v0.7.2 - 2019-07-09
 
 ## Added
 
-* `.resolve` accepts an optional fallback block, similar to how `Hash#fetch` works (flash-gordon)
+* `.resolve` accepts an optional fallback block, similar to how `Hash#fetch` works ([flash-gordon](https://github.com/flash-gordon))
   ```ruby
   container.resolve('missing_key') { :fallback } # => :fallback
   ```
+* `.decorate` can (again) work with static values. Also, it can take a block instead of `with` ([flash-gordon](https://github.com/flash-gordon))
+  ```ruby
+  container.register('key', 'value')
+  container.decorate('key') { |v| "<'#{v}'>" }
+  container.resolve('key') # => "<'value'>"
+  ```
+
+[Compare v0.7.1...0.7.2](https://github.com/dry-rb/dry-container/compare/v0.7.1...v0.7.2)
 
 ## v0.7.1 - 2019-06-07
 
