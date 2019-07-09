@@ -12,4 +12,4 @@ exclude_patterns:
 
 plugins:
   rubocop:
-enabled: true
+    enabled: true
