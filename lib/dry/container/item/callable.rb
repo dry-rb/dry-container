@@ -14,13 +14,6 @@ module Dry
         def call
           callable? ? item.call : item
         end
-
-        private
-
-        # @private
-        def callable?
-          options[:call]
-        end
       end
     end
   end

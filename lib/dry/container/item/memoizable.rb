@@ -21,7 +21,7 @@ module Dry
         # @return [Dry::Container::Item::Base]
         def initialize(item, options = {})
           super
-          raise_not_supported_error unless item.is_a?(::Proc)
+          raise_not_supported_error unless callable?
 
           @memoize_mutex = ::Mutex.new
         end

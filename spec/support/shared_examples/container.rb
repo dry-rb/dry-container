@@ -426,14 +426,34 @@ RSpec.shared_examples 'a container' do
       end
 
       context 'for not callable item' do
-        before do
-          container.register(key, call: false) { "value" }
-          container.decorate(key, with: SimpleDelegator)
+        describe 'wrapping' do
+          before do
+            container.register(key, call: false) { "value" }
+            container.decorate(key, with: SimpleDelegator)
+          end
+
+          it 'expected to be an instance of SimpleDelegator' do
+            expect(container.resolve(key)).to be_instance_of(SimpleDelegator)
+            expect(container.resolve(key).__getobj__.call).to eql("value")
+          end
         end
 
-        it 'expected to be an instance of SimpleDelegator' do
-          expect(container.resolve(key)).to be_instance_of(SimpleDelegator)
-          expect(container.resolve(key).__getobj__.call).to eql("value")
+        describe 'memoization' do
+          before do
+            @called = 0
+            container.register(key, 'value')
+
+            container.decorate(key) do |value|
+              @called += 1
+              "<#{value}>"
+            end
+          end
+
+          it 'decorates static value only once' do
+            expect(container.resolve(key)).to eql('<value>')
+            expect(container.resolve(key)).to eql('<value>')
+            expect(@called).to be(1)
+          end
         end
       end
 

@@ -23,6 +23,27 @@ module Dry
       def call
         raise NotImplementedError
       end
+
+      # @private
+      def value?
+        !callable?
+      end
+
+      # @private
+      def callable?
+        options[:call]
+      end
+
+      # Build a new item with transformation applied
+      #
+      # @private
+      def map(func)
+        if callable?
+          self.class.new(-> { func.(item.call) }, options)
+        else
+          self.class.new(func.(item), options)
+        end
+      end
     end
   end
 end
