@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.version       = ::Dry::Container::VERSION
   spec.authors       = ['Andy Holland']
   spec.email         = ['andyholland1991@aol.com']
-  spec.summary       = 'A simple container intended for use as an IoC container'
+  spec.summary       = 'A simple, configurable object container implemented in Ruby'
   spec.homepage      = 'https://github.com/dry-rb/dry-container'
   spec.license       = 'MIT'
 
