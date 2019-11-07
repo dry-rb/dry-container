@@ -1,5 +1,5 @@
 [gem]: https://rubygems.org/gems/dry-container
-[travis]: https://travis-ci.org/dry-rb/dry-container
+[ci]: https://github.com/dry-rb/dry-container/actions?query=workflow%3Aci
 [maintainability]: https://codeclimate.com/github/dry-rb/dry-container/maintainability
 [test_coverage]: https://codeclimate.com/github/dry-rb/dry-container/test_coverage
 [inch]: http://inch-ci.org/github/dry-rb/dry-container
@@ -8,7 +8,7 @@
 # dry-container [![Join the chat at https://dry-rb.zulipchat.com](https://img.shields.io/badge/dry--rb-join%20chat-%23346b7a.svg)][chat]
 
 [![Gem Version](https://img.shields.io/gem/v/dry-container.svg)][gem]
-[![Build Status](https://img.shields.io/travis/dry-rb/dry-container.svg)][travis]
+[![Build Status](https://github.com/dry-rb/dry-container/workflows/ci/badge.svg)][ci]
 [![Maintainability](https://api.codeclimate.com/v1/badges/97faf9446cb5811100e7/maintainability)][maintainability]
 [![Test Coverage](https://api.codeclimate.com/v1/badges/97faf9446cb5811100e7/test_coverage)][test_coverage]
 [![API Documentation Coverage](http://inch-ci.org/github/dry-rb/dry-container.svg)][inch]
