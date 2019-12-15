@@ -14,7 +14,7 @@ module Dry
       #   Fallback block to call when a key is missing. Its result will be returned
       # @yieldparam [Mixed] key Missing key
       #
-      # @raise [Dry::Conainer::Error]
+      # @raise [Dry::Container::Error]
       #   If the given key is not registered with the container (and no block provided)
       #
       #
