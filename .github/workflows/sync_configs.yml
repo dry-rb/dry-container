@@ -21,6 +21,8 @@ jobs:
         run: bundle install --jobs 4 --retry 3 --without tools test benchmarks docs
       - name: Check bundler version
         run: bundle --version
+      - name: Check ossy path
+        run: bundle info ossy --path
       - name: Symlink ossy
         run: ln -sf "$(bundle info ossy --path)/bin/ossy" bin/ossy
       - name: Clone devtools
