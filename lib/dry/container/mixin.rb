@@ -221,7 +221,7 @@ module Dry
         if with.is_a?(Class)
           decorator = with.method(:new)
         elsif block.nil? && !with.respond_to?(:call)
-          raise Error, "Decorator needs to be a Class, block, or respond to the `call` method"
+          raise Error, 'Decorator needs to be a Class, block, or respond to the `call` method'
         else
           decorator = with || block
         end

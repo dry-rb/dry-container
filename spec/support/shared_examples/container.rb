@@ -430,13 +430,13 @@ RSpec.shared_examples 'a container' do
       context 'for not callable item' do
         describe 'wrapping' do
           before do
-            container.register(key, call: false) { "value" }
+            container.register(key, call: false) { 'value' }
             container.decorate(key, with: SimpleDelegator)
           end
 
           it 'expected to be an instance of SimpleDelegator' do
             expect(container.resolve(key)).to be_instance_of(SimpleDelegator)
-            expect(container.resolve(key).__getobj__.call).to eql("value")
+            expect(container.resolve(key).__getobj__.call).to eql('value')
           end
         end
 
@@ -467,12 +467,12 @@ RSpec.shared_examples 'a container' do
         end
 
         before do
-          container.register(key) { "value" }
+          container.register(key) { 'value' }
           container.decorate(key, with: decorator)
         end
 
         it 'expected to pass original value to decorator#call method' do
-          expect(container.resolve(key)).to eq("decorated value")
+          expect(container.resolve(key)).to eq('decorated value')
         end
       end
     end
