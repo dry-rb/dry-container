@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dry
   class Container
     # Base class to abstract Memoizable and Callable implementations

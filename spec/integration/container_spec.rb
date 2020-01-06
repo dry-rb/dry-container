@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Dry::Container do
   let(:klass) { Dry::Container }
   let(:container) { klass.new }
@@ -9,8 +11,8 @@ RSpec.describe Dry::Container do
       parent = Class.new { extend Dry::Container::Mixin }
       child = Class.new(parent)
 
-      parent.register(:foo, 'foo')
-      child.register(:foo, 'foo')
+      parent.register(:foo, Object.new)
+      child.register(:foo, Object.new)
 
       expect(parent[:foo]).to_not be(child[:foo])
     end

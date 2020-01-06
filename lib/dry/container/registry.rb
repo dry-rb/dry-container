@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dry/container/item/factory'
 
 module Dry

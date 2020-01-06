@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe Dry::Container::Mixin do
   describe 'extended' do
     let(:klass) do

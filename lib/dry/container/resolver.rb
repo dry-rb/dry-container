@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dry
   class Container
     # Default resolver for resolving items from container
