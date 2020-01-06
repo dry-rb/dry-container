@@ -11,7 +11,7 @@ module Dry
       # Add a stub to the container
       def stub(key, value, &block)
         unless key?(key)
-          raise ArgumentError, "cannot stub #{ key.to_s.inspect } - no such key in container"
+          raise ArgumentError, "cannot stub #{key.to_s.inspect} - no such key in container"
         end
 
         _stubs[key.to_s] = value

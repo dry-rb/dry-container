@@ -1,4 +1,3 @@
-
 require 'concurrent/hash'
 
 module Dry
