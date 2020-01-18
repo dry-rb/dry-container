@@ -14,6 +14,7 @@
   container.resolve('key') # => "<'value'>"
   ```
 
+
 [Compare v0.7.1...v0.7.2](https://github.com/dry-rb/dry-container/compare/v0.7.1...v0.7.2)
 
 ## 0.7.1 2019-06-07
@@ -22,6 +23,7 @@
 ### Fixed
 
 - Added `Mixin#dup` and `Mixin#clone`, now copies don't share underlying containers (flash-gordon)
+
 
 [Compare v0.7.0...v0.7.1](https://github.com/dry-rb/dry-container/compare/v0.7.0...v0.7.1)
 
@@ -65,6 +67,7 @@
 ### Changed
 
 - [BREAKING] Now only Ruby 2.3 and above is supported ([flash-gordon](https://github.com/flash-gordon))
+
 [Compare v0.6.0...v0.7.0](https://github.com/dry-rb/dry-container/compare/v0.6.0...v0.7.0)
 
 ## 0.6.0 2016-12-09
@@ -77,6 +80,7 @@
 ### Fixed
 
 - Including mixin into a class with a custom initializer ([maltoe](https://github.com/maltoe))
+
 
 [Compare v0.5.0...v0.6.0](https://github.com/dry-rb/dry-container/compare/v0.5.0...v0.6.0)
 
