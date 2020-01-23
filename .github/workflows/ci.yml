@@ -1,6 +1,6 @@
 # this file is managed by dry-rb/devtools project
 
-name: ci
+name: Tests
 
 "on":
   push:
@@ -46,7 +46,7 @@ jobs:
           ruby-version: ${{matrix.ruby}}
       - name: Install latest bundler
         run: |
-          gem install bundler
+          gem install bundler --no-document
           bundle config set without 'tools benchmarks docs'
       - name: Bundle install
         run: bundle install --jobs 4 --retry 3
@@ -54,7 +54,7 @@ jobs:
         run: bundle exec rake
   release:
     runs-on: ubuntu-latest
-    if: contains(github.ref, 'tags')
+    if: contains(github.ref, 'tags') && github.event_name == 'create'
     needs: tests
     env:
       GITHUB_LOGIN: dry-bot
@@ -65,13 +65,9 @@ jobs:
         uses: eregon/use-ruby-action@master
         with:
           ruby-version: 2.6
-      - name: Bundle
-        run: |
-          bundle install
-      - name: Symlink ossy
-        run: |
-          ln -sf "$(bundle info ossy --path)/bin/ossy" bin/ossy
+      - name: Install dependencies
+        run: gem install ossy --no-document
       - name: Trigger release workflow
         run: |
           tag=$(echo $GITHUB_REF | cut -d / -f 3)
-          bundle exec bin/ossy gh w $GITHUB_REPOSITORY release --payload "{\"tag\":\"$tag\"}"
+          ossy gh w dry-rb/devtools release --payload "{\"tag\":\"$tag\",\"tag_creator\":\"$GITHUB_ACTOR\",\"repo\":\"$GITHUB_REPOSITORY\"}"
