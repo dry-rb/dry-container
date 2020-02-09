@@ -7,6 +7,15 @@ begin
 rescue LoadError
 end
 
+require 'pathname'
+
+Dir[Pathname(__FILE__).dirname.join('support/**/*.rb').to_s].each do |file|
+  require file
+end
+
+require 'dry/container'
+require 'dry/container/stub'
+
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -83,11 +92,4 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
-end
-
-require 'dry/container'
-require 'dry/container/stub'
-
-Dir[Pathname(__FILE__).dirname.join('support/**/*.rb').to_s].each do |file|
-  require file
 end
