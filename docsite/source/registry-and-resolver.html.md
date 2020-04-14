@@ -63,14 +63,7 @@ class Container
   extend Dry::Container::Mixin
 
   config.registry = ->(container, key, item, options) { container[key] = item }
-  config.resolver = CustomResolver
-end
-
-class ContainerObject
-  include Dry::Container::Mixin
-
-  config.registry = ->(container, key, item, options) { container[key] = item }
-  config.resolver = CustomResolver
+  config.resolver = CustomResolver.new
 end
 ```
 
