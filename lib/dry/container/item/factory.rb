@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'dry/container/item/memoizable'
-require 'dry/container/item/callable'
+require "dry/container/item/memoizable"
+require "dry/container/item/callable"
 
 module Dry
   class Container

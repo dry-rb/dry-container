@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'dry-configurable'
-require 'dry/container/error'
-require 'dry/container/namespace'
-require 'dry/container/registry'
-require 'dry/container/resolver'
-require 'dry/container/namespace_dsl'
-require 'dry/container/mixin'
-require 'dry/container/version'
+require "dry-configurable"
+require "dry/container/error"
+require "dry/container/namespace"
+require "dry/container/registry"
+require "dry/container/resolver"
+require "dry/container/namespace_dsl"
+require "dry/container/mixin"
+require "dry/container/version"
 
 # A collection of micro-libraries, each intended to encapsulate
 # a common task in Ruby
