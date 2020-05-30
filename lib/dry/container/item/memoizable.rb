@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/container/item'
+require "dry/container/item"
 
 module Dry
   class Container
@@ -41,7 +41,7 @@ module Dry
 
         # @private
         def raise_not_supported_error
-          raise ::Dry::Container::Error, 'Memoize only supported for a block or a proc'.freeze
+          raise ::Dry::Container::Error, "Memoize only supported for a block or a proc".freeze
         end
       end
     end

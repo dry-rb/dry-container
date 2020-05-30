@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'concurrent/hash'
+require "concurrent/hash"
 
 module Dry
   class Container
@@ -49,7 +49,7 @@ module Dry
 
           setting :registry, ::Dry::Container::Registry.new
           setting :resolver, ::Dry::Container::Resolver.new
-          setting :namespace_separator, '.'
+          setting :namespace_separator, "."
 
           @_container = ::Concurrent::Hash.new
         end
@@ -71,7 +71,7 @@ module Dry
 
           setting :registry, ::Dry::Container::Registry.new
           setting :resolver, ::Dry::Container::Resolver.new
-          setting :namespace_separator, '.'
+          setting :namespace_separator, "."
 
           def config
             self.class.config
@@ -221,7 +221,7 @@ module Dry
         if with.is_a?(Class)
           decorator = with.method(:new)
         elsif block.nil? && !with.respond_to?(:call)
-          raise Error, 'Decorator needs to be a Class, block, or respond to the `call` method'
+          raise Error, "Decorator needs to be a Class, block, or respond to the `call` method"
         else
           decorator = with || block
         end

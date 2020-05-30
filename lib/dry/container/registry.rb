@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/container/item/factory'
+require "dry/container/item/factory"
 
 module Dry
   class Container
