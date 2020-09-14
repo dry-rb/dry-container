@@ -23,6 +23,8 @@ Note that dependency *injection*, dependency *inversion*, and *inversion of cont
 ### Brief Example
 
 ```ruby
+require 'dry-container'
+
 container = Dry::Container.new
 container.register(:parrot) { |a| puts a }
 
@@ -35,10 +37,12 @@ parrot.call("Hello World")
 ### Detailed Example
 
 ```ruby
+require 'dry-container'
+
 User = Struct.new(:name, :email)
 
-data_store = ThreadSafe::Cache.new.tap do |ds|
-  ds[:users] = ThreadSafe::Array.new
+data_store = Concurrent::Map.new.tap do |ds|
+  ds[:users] = Concurrent::Array.new
 end
 
 # Initialize container
@@ -79,7 +83,7 @@ container.resolve(:block)
 # You can also register items under namespaces using the #namespace method
 container.namespace('repositories') do
   namespace('checkout') do
-    register('orders') { ThreadSafe::Array.new }
+    register('orders') { Concurrent::Array.new }
   end
 end
 container.resolve('repositories.checkout.orders')
@@ -88,7 +92,7 @@ container.resolve('repositories.checkout.orders')
 # Or import a namespace
 ns = Dry::Container::Namespace.new('repositories') do
   namespace('authentication') do
-    register('users') { ThreadSafe::Array.new }
+    register('users') { Concurrent::Array.new }
   end
 end
 container.import(ns)
@@ -98,7 +102,7 @@ container.resolve('repositories.authentication.users')
 # Also, you can import namespaces in container class
 Repositories = Dry::Container::Namespace.new('repositories') do
   namespace('authentication') do
-    register('users') { ThreadSafe::Array.new }
+    register('users') { Concurrent::Array.new }
   end
 end
 
@@ -114,6 +118,8 @@ Container.resolve('repositories.authentication.users')
 You can also get container behaviour at both the class and instance level via the mixin:
 
 ```ruby
+require 'dry-container'
+
 class Container
   extend Dry::Container::Mixin
 end
