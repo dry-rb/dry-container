@@ -47,9 +47,9 @@ module Dry
           extend ::Dry::Configurable
           extend hooks_mod
 
-          setting :registry, ::Dry::Container::Registry.new
-          setting :resolver, ::Dry::Container::Resolver.new
-          setting :namespace_separator, "."
+          setting :registry, default: Dry::Container::Registry.new
+          setting :resolver, default: Dry::Container::Resolver.new
+          setting :namespace_separator, default: "."
 
           @_container = ::Concurrent::Hash.new
         end
@@ -69,9 +69,9 @@ module Dry
           extend ::Dry::Configurable
           prepend Initializer
 
-          setting :registry, ::Dry::Container::Registry.new
-          setting :resolver, ::Dry::Container::Resolver.new
-          setting :namespace_separator, "."
+          setting :registry, default: Dry::Container::Registry.new
+          setting :resolver, default: Dry::Container::Resolver.new
+          setting :namespace_separator, default: "."
 
           def config
             self.class.config
