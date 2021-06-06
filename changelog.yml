@@ -1,4 +1,9 @@
 ---
+- version: 0.8.0
+  date: "2021-06-06"
+  summary:
+  changed:
+  - "[BREAKING] Support for 2.4 and 2.5 was dropped"
 - version: 0.7.2
   date: '2019-07-09'
   added:
