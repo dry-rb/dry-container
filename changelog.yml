@@ -2,7 +2,7 @@
 - version: 0.9.0
   date: "2021-09-12"
   changed:
-  - 'Upgraded to new `setting` API provided in dry-configurable 0.13.0 (@timriley in #77)'
+  - '[internal] Upgraded to new `setting` API provided in dry-configurable 0.13.0 (@timriley in #77)'
 - version: 0.8.0
   date: "2021-06-06"
   summary:
