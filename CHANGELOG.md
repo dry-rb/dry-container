@@ -5,7 +5,7 @@
 
 ### Changed
 
-- Upgraded to new `setting` API provided in dry-configurable 0.13.0 (@timriley in #77)
+- [internal] Upgraded to new `setting` API provided in dry-configurable 0.13.0 (@timriley in #77)
 
 [Compare v0.8.0...v0.9.0](https://github.com/dry-rb/dry-container/compare/v0.8.0...v0.9.0)
 
