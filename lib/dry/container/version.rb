@@ -3,6 +3,6 @@
 module Dry
   class Container
     # @api public
-    VERSION = "0.9.0".freeze
+    VERSION = "0.9.0"
   end
 end

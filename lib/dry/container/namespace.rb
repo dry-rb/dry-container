@@ -24,6 +24,7 @@ module Dry
       attr_reader :name
       # @return [Proc] The block to be executed when the namespace is imported
       attr_reader :block
+
       # Create a new namespace
       #
       # @param [Mixed] name
