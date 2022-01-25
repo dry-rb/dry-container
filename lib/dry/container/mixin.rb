@@ -105,6 +105,8 @@ module Dry
         config.registry.call(_container, key, item, options)
 
         self
+      rescue FrozenError
+        raise FrozenError, "can't modify frozen #{self.class} (when attempting to register '#{key}')"
       end
 
       # Resolve an item from the container

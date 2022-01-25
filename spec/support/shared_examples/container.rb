@@ -633,6 +633,15 @@ RSpec.shared_examples "a container" do
       expect(container).to be_frozen
     end
 
+    it "wraps FrozenError to provide which key was attempted to be registered" do
+      container.freeze
+      expect { container.register(:baz, "quux") }
+        .to raise_error(
+          FrozenError,
+          /can't modify frozen \S+ \(when attempting to register 'baz'\)/
+        )
+    end
+
     it "returns self back" do
       expect(container.freeze).to be(container)
     end
