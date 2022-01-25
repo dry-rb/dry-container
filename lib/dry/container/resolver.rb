@@ -28,7 +28,7 @@ module Dry
           if block_given?
             return yield(key)
           else
-            raise KeyError.new(key: key.to_s, receiver: container)
+            raise KeyError.new(%(key not found: "#{key}"), key: key.to_s, receiver: container)
           end
         end
 
