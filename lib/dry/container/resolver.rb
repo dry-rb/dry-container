@@ -69,16 +69,17 @@ module Dry
         container.each_key(&block)
       end
 
-      # Calls block once for each key in container, passing the key and the registered item parameters.
+      # Calls block once for each key in container, passing the key and
+      # the registered item parameters.
       #
       # If no block is given, an enumerator is returned instead.
       #
       # @return Key, Value
       #
       # @api public
-      # @note In discussions with other developers, it was felt that being able to iterate over not just
-      #       the registered keys, but to see what was registered would be very helpful. This is a step
-      #       toward doing that.
+      # @note In discussions with other developers, it was felt that being able
+      #       to iterate over not just the registered keys, but to see what was
+      #       registered would be very helpful. This is a step toward doing that.
       def each(container, &block)
         container.map { |key, value| [key, value.call] }.each(&block)
       end
