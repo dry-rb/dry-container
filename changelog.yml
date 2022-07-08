@@ -1,11 +1,20 @@
 ---
-- version: 0.9.0
-  date: "2021-09-12"
+- version: unreleased
+  summary: 
+  date: 
+  fixed: 
+  added: 
   changed:
-  - '[internal] Upgraded to new `setting` API provided in dry-configurable 0.13.0 (@timriley in #77)'
+  - 'Replace dep on dry-configurable with a simple `Configuration` mod (see #84 for
+    more details) (@solnic)'
+- version: 0.9.0
+  date: '2021-09-12'
+  changed:
+  - "[internal] Upgraded to new `setting` API provided in dry-configurable 0.13.0
+    (@timriley in #77)"
 - version: 0.8.0
-  date: "2021-06-06"
-  summary:
+  date: '2021-06-06'
+  summary: 
   changed:
   - "[BREAKING] Support for 2.4 and 2.5 was dropped"
 - version: 0.7.2
