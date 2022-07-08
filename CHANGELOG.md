@@ -3,6 +3,10 @@
 ## unreleased 
 
 
+### Added
+
+- Accept block given to `#merge` (via #83) (@timriley)
+
 ### Changed
 
 - Replace dep on dry-configurable with a simple `Configuration` mod (see #84 for more details) (@solnic)
