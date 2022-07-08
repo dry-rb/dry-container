@@ -181,15 +181,16 @@ module Dry
       # @return [Dry::Container::Mixin] self
       #
       # @api public
-      def merge(other, namespace: nil)
+      def merge(other, namespace: nil, &block)
         if namespace
           _container.merge!(
-            other._container.each_with_object(::Concurrent::Hash.new) do |a, h|
-              h[PREFIX_NAMESPACE.call(namespace, a.first, config)] = a.last
-            end
+            other._container.each_with_object(::Concurrent::Hash.new) { |(key, item), hsh|
+              hsh[PREFIX_NAMESPACE.call(namespace, key, config)] = item
+            },
+            &block
           )
         else
-          _container.merge!(other._container)
+          _container.merge!(other._container, &block)
         end
 
         self
