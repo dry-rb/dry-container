@@ -1,92 +1,92 @@
 ---
 - version: unreleased
-  summary: 
-  date: 
-  fixed: 
+  summary:
+  date:
+  fixed:
   added:
-  - 'Accept block given to `#merge` (via #83) (@timriley)'
+    - "Accept block given to `#merge` (via #83) (@timriley)"
   changed:
-  - 'Replace dep on dry-configurable with a simple `Configuration` mod (see #84 for
-    more details) (@solnic)'
-  - 'Raise KeyError for missing key, with DidYouMean integration (via #82) (@cllns)'
+    - "Raise KeyError for missing key, with DidYouMean integration (via #82) (@cllns)"
+    - "Replace dep on dry-configurable with a simple `Configuration` mod (see #84 for more details) (@solnic)"
+    - "Wrap FrozenError, to state that the container itself is frozen (see #74) (@cllns)"
 - version: 0.9.0
-  date: '2021-09-12'
+  date: "2021-09-12"
   changed:
-  - "[internal] Upgraded to new `setting` API provided in dry-configurable 0.13.0
-    (@timriley in #77)"
+    - "[internal] Upgraded to new `setting` API provided in dry-configurable 0.13.0
+      (@timriley in #77)"
 - version: 0.8.0
-  date: '2021-06-06'
-  summary: 
+  date: "2021-06-06"
+  summary:
   changed:
-  - "[BREAKING] Support for 2.4 and 2.5 was dropped"
+    - "[BREAKING] Support for 2.4 and 2.5 was dropped"
 - version: 0.7.2
-  date: '2019-07-09'
+  date: "2019-07-09"
   added:
-  - |-
-    `.resolve` accepts an optional fallback block, similar to how `Hash#fetch` works ([flash-gordon](https://github.com/flash-gordon))
-      ```ruby
-      container.resolve('missing_key') { :fallback } # => :fallback
-      ```
-  - |-
-    `.decorate` can (again) work with static values. Also, it can take a block instead of `with` ([flash-gordon](https://github.com/flash-gordon))
-      ```ruby
-      container.register('key', 'value')
-      container.decorate('key') { |v| "<'#{v}'>" }
-      container.resolve('key') # => "<'value'>"
-      ```
+    - |-
+      `.resolve` accepts an optional fallback block, similar to how `Hash#fetch` works ([flash-gordon](https://github.com/flash-gordon))
+        ```ruby
+        container.resolve('missing_key') { :fallback } # => :fallback
+        ```
+    - |-
+      `.decorate` can (again) work with static values. Also, it can take a block instead of `with` ([flash-gordon](https://github.com/flash-gordon))
+        ```ruby
+        container.register('key', 'value')
+        container.decorate('key') { |v| "<'#{v}'>" }
+        container.resolve('key') # => "<'value'>"
+        ```
 - version: 0.7.1
-  date: '2019-06-07'
+  date: "2019-06-07"
   fixed:
-  - Added `Mixin#dup` and `Mixin#clone`, now copies don't share underlying containers
-    (flash-gordon)
+    - Added `Mixin#dup` and `Mixin#clone`, now copies don't share underlying containers
+      (flash-gordon)
 - version: 0.7.0
-  date: '2019-02-05'
+  date: "2019-02-05"
   changed:
-  - "[BREAKING] Now only Ruby 2.3 and above is supported ([flash-gordon](https://github.com/flash-gordon))"
+    - "[BREAKING] Now only Ruby 2.3 and above is supported ([flash-gordon](https://github.com/flash-gordon))"
   fixed:
-  - Symbols are now coerced to strings when resolving stubbed dependencies ([cthulhu666](https://github.com/cthulhu666))
-  - |-
-    Stubbing keys not present in container will raise an error ([flash-gordon](https://github.com/flash-gordon))
+    - Symbols are now coerced to strings when resolving stubbed dependencies ([cthulhu666](https://github.com/cthulhu666))
+    - |-
+      Stubbing keys not present in container will raise an error ([flash-gordon](https://github.com/flash-gordon))
 
-      This means after upgrading you may see errors like this
-      ```
-      ArgumentError (cannot stub "something" - no such key in container)
-      ```
-      Be sure you register dependencies before using them. The new behavior will likely save quite a bit of time when debugging ill-configured container setups.
+        This means after upgrading you may see errors like this
+        ```
+        ArgumentError (cannot stub "something" - no such key in container)
+        ```
+        Be sure you register dependencies before using them. The new behavior will likely save quite a bit of time when debugging ill-configured container setups.
   added:
-  - Namespace DSL resolves keys relative to the current namespace, see the corresponding
-    [changes](https://github.com/dry-rb/dry-container/pull/47) ([yuszuv](https://github.com/yuszuv))
-  - |-
-    Registered objects can be decorated with the following API ([igor-alexandrov](https://github.com/igor-alexandrov))
+    - Namespace DSL resolves keys relative to the current namespace, see the corresponding
+      [changes](https://github.com/dry-rb/dry-container/pull/47) ([yuszuv](https://github.com/yuszuv))
+    - |-
+      Registered objects can be decorated with the following API ([igor-alexandrov](https://github.com/igor-alexandrov))
 
-      ```ruby
-      class CreateUser
-        def call(params)
-          # ...
+        ```ruby
+        class CreateUser
+          def call(params)
+            # ...
+          end
         end
-      end
-      container.register('create_user') { CreateUser.new }
-      container.decorate('create_user', with: ShinyLogger.new)
+        container.register('create_user') { CreateUser.new }
+        container.decorate('create_user', with: ShinyLogger.new)
 
-      # Now subsequent resolutions will return a wrapped object
+        # Now subsequent resolutions will return a wrapped object
 
-      container.resolve('create_user')
-      # => #<ShinyLogger @obj=#<CreateUser:0x...>]>
-      ```
-  - Freezing a container now prevents further registrations ([flash-gordon](https://github.com/flash-gordon))
-  - "## Internal"
-  - Handling container items was generalized in [#34](https://github.com/dry-rb/dry-container/pull/34)
-    ([GabrielMalakias](https://github.com/GabrielMalakias))
+        container.resolve('create_user')
+        # => #<ShinyLogger @obj=#<CreateUser:0x...>]>
+        ```
+    - Freezing a container now prevents further registrations ([flash-gordon](https://github.com/flash-gordon))
+    - "## Internal"
+    - Handling container items was generalized in [#34](https://github.com/dry-rb/dry-container/pull/34)
+      ([GabrielMalakias](https://github.com/GabrielMalakias))
 - version: 0.6.0
-  date: '2016-12-09'
+  date: "2016-12-09"
   added:
-  - "`Dry::Container::Mixin#each` - provides a means of seeing what all is registered
-    in the container ([jeremyf](https://github.com/jeremyf))"
+    - "`Dry::Container::Mixin#each` - provides a means of seeing what all is registered
+      in the container ([jeremyf](https://github.com/jeremyf))"
   fixed:
-  - Including mixin into a class with a custom initializer ([maltoe](https://github.com/maltoe))
+    - Including mixin into a class with a custom initializer ([maltoe](https://github.com/maltoe))
 - version: 0.5.0
-  date: '2016-08-31'
+  date: "2016-08-31"
   added:
-  - "`memoize` option to `#register` - memoizes items on first resolve ([ivoanjo](https://github.com/ivoanjo))"
+    - "`memoize` option to `#register` - memoizes items on first resolve ([ivoanjo](https://github.com/ivoanjo))"
   fixed:
-  - "`required_ruby_version` set to `>= 2.0.0` ([artofhuman](https://github.com/artofhuman))"
+    - "`required_ruby_version` set to `>= 2.0.0` ([artofhuman](https://github.com/artofhuman))"
