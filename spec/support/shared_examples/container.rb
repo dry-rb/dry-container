@@ -253,7 +253,12 @@ RSpec.shared_examples "a container" do
     describe "resolving with a key that has not been registered" do
       it do
         expect(container.key?(:item)).to be false
-        expect { container.resolve(:item) }.to raise_error(Dry::Container::Error)
+        expect { container.resolve(:item) }.to raise_error(KeyError) do |error|
+          # This is the API needed for DidYouMean::KeyErrorChecker to provide corrections
+          expect(error.key).to eq("item")
+          expect(error.receiver).to eq(container._container)
+          expect(error.spell_checker).to be_instance_of(DidYouMean::KeyErrorChecker)
+        end
       end
     end
 
