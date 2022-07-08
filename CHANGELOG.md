@@ -10,6 +10,7 @@
 ### Changed
 
 - Replace dep on dry-configurable with a simple `Configuration` mod (see #84 for more details) (@solnic)
+- Raise KeyError for missing key, with DidYouMean integration (via #82) (@cllns)
 
 [Compare v0.9.0...master](https://github.com/dry-rb/dry-container/compare/v0.9.0...master)
 
