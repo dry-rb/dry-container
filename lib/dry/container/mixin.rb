@@ -4,6 +4,46 @@ require "concurrent/hash"
 
 module Dry
   class Container
+    # @api public
+    class Config
+      DEFAULT_NAMESPACE_SEPARATOR = "."
+      DEFAULT_RESOLVER = Resolver.new
+      DEFAULT_REGISTRY = Registry.new
+
+      # @api public
+      attr_accessor :namespace_separator
+
+      # @api public
+      attr_accessor :resolver
+
+      # @api public
+      attr_accessor :registry
+
+      # @api private
+      def initialize(
+        namespace_separator: DEFAULT_NAMESPACE_SEPARATOR,
+        resolver: DEFAULT_RESOLVER,
+        registry: DEFAULT_REGISTRY
+      )
+        @namespace_separator = namespace_separator
+        @resolver = resolver
+        @registry = registry
+      end
+    end
+
+    # @api public
+    module Configuration
+      # @api public
+      def config
+        @config ||= Config.new
+      end
+
+      # @api public
+      def configure
+        yield config
+      end
+    end
+
     PREFIX_NAMESPACE = lambda do |namespace, key, config|
       [namespace, key].join(config.namespace_separator)
     end
@@ -45,12 +85,8 @@ module Dry
         end
 
         base.class_eval do
-          extend ::Dry::Configurable
+          extend Configuration
           extend hooks_mod
-
-          setting :registry, default: Dry::Container::Registry.new
-          setting :resolver, default: Dry::Container::Resolver.new
-          setting :namespace_separator, default: "."
 
           @_container = ::Concurrent::Hash.new
         end
@@ -67,12 +103,8 @@ module Dry
       # @private
       def self.included(base)
         base.class_eval do
-          extend ::Dry::Configurable
+          extend Configuration
           prepend Initializer
-
-          setting :registry, default: Dry::Container::Registry.new
-          setting :resolver, default: Dry::Container::Resolver.new
-          setting :namespace_separator, default: "."
 
           def config
             self.class.config
