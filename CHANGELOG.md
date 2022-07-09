@@ -2,7 +2,7 @@
 
 ## unreleased 
 
-:warn: Notice that dry-container no longer depends on dry-configurable. If you happen to rely on the advanced configurable functionality, add dry-configurable as a dependency and use its API in your container class.
+:warn: Notice that dry-container no longer depends on dry-configurable. If you happen to rely on the advanced configurable functionality, add dry-configurable as a dependency and require it **before** requiring dry-container.
 
 ### Added
 
