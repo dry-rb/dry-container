@@ -33,12 +33,27 @@ module Dry
 
     # @api public
     module Configuration
-      # @api public
-      def config
-        @config ||= Config.new
+      # Use dry/configurable if it's available
+      if defined?(Configurable)
+        # @api private
+        def self.extended(klass)
+          super
+          klass.class_eval do
+            extend Dry::Configurable
+
+            setting :namespace_separator, default: Config::DEFAULT_NAMESPACE_SEPARATOR
+            setting :resolver, default: Config::DEFAULT_RESOLVER
+            setting :registry, default: Config::DEFAULT_REGISTRY
+          end
+        end
+      else
+        # @api private
+        def config
+          @config ||= Config.new
+        end
       end
 
-      # @api public
+      # @api private
       def configure
         yield config
       end
@@ -71,9 +86,7 @@ module Dry
     #   container.resolve(:item)
     #   => 'item'
     #
-    #
     # @api public
-    # rubocop: disable Metrics/ModuleLength
     module Mixin
       # @private
       def self.extended(base)

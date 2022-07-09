@@ -13,6 +13,10 @@ Dir[Pathname(__FILE__).dirname.join("support/**/*.rb").to_s].sort.each do |file|
   require file
 end
 
+if ENV["DRY_CONFIGURABLE"] == "true"
+  require "dry/configurable"
+end
+
 require "dry/container"
 require "dry/container/stub"
 
