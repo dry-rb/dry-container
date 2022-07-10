@@ -1,13 +1,13 @@
 ---
-- version: unreleased
+- version: 0.10.0
   summary: "⚠️ Notice that dry-container no longer depends on dry-configurable. If you happen to rely on the advanced configurable functionality, add dry-configurable as a dependency and require it **before** requiring dry-container."
-  date:
+  date: "2022-07-10"
   fixed:
   added:
     - "Accept block given to `#merge` (via #83) (@timriley)"
   changed:
+    - "[BREAKING] Replace dep on dry-configurable with a simple `Configuration` mod (see #84 for more details) (@solnic)"
     - "Raise KeyError for missing key, with DidYouMean integration (via #82) (@cllns)"
-    - "Replace dep on dry-configurable with a simple `Configuration` mod (see #84 for more details) (@solnic)"
     - "Wrap FrozenError, to state that the container itself is frozen (see #74) (@cllns)"
 - version: 0.9.0
   date: "2021-09-12"
