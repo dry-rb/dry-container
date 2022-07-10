@@ -301,6 +301,32 @@ RSpec.shared_examples "a container" do
           it { expect(container["#{namespace}.#{key}"]).to be(:item) }
         end
       end
+
+      context "with a block resolving conflicts" do
+        before do
+          container.register(:conflicting_key, "original")
+          other.register(:conflicting_key, "from other")
+        end
+
+        it "resolves conflict using provided block" do
+          container.merge(other) { |_, left, right| left }
+
+          expect(container[:conflicting_key]).to eql("original")
+        end
+      end
+
+      context "with a block resolving conflicts with a namespace" do
+        before do
+          container.register("items.conflicting_key", "original")
+          other.register("conflicting_key", "from other")
+        end
+
+        it "resolves conflict using provided block" do
+          container.merge(other, namespace: "items") { |_, left, right| left }
+
+          expect(container["items.conflicting_key"]).to eql("original")
+        end
+      end
     end
 
     describe "#key?" do
