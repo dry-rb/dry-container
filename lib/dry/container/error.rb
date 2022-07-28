@@ -6,7 +6,9 @@ module Dry
     Error = Class.new(StandardError)
 
     KeyError = Class.new(::KeyError)
-    DidYouMean.correct_error(KeyError, DidYouMean::KeyErrorChecker)
+    if defined?(DidYouMean::KeyErrorChecker)
+      DidYouMean.correct_error(KeyError, DidYouMean::KeyErrorChecker)
+    end
 
     deprecate_constant(:Error)
   end
