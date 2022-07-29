@@ -1,9 +1,9 @@
 ---
-- version: unreleased
-  summary: 
-  date: 
-  fixed: 
-  added: 
+- version: 0.9.1
+  summary:
+  date: '2022-07-29'
+  fixed:
+  added:
   changed:
   - 'Make `DidYouMean` integration optional (via #86) (@jbourassa)'
 - version: 0.10.0
@@ -11,7 +11,7 @@
     you happen to rely on the advanced configurable functionality, add dry-configurable
     as a dependency and require it **before** requiring dry-container."
   date: '2022-07-10'
-  fixed: 
+  fixed:
   added:
   - 'Accept block given to `#merge` (via #83) (@timriley)'
   changed:
@@ -26,7 +26,7 @@
     (@timriley in #77)"
 - version: 0.8.0
   date: '2021-06-06'
-  summary: 
+  summary:
   changed:
   - "[BREAKING] Support for 2.4 and 2.5 was dropped"
 - version: 0.7.2
