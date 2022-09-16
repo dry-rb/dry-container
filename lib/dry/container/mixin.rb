@@ -34,7 +34,9 @@ module Dry
     # @api public
     module Configuration
       # Use dry/configurable if it's available
-      if defined?(Configurable)
+      begin
+        require "dry/configurable"
+
         # @api private
         def self.extended(klass)
           super
@@ -46,7 +48,7 @@ module Dry
             setting :registry, default: Config::DEFAULT_REGISTRY
           end
         end
-      else
+      rescue LoadError
         # @api private
         def config
           @config ||= Config.new
