@@ -1,4 +1,11 @@
 ---
+- version: 0.11.0
+  summary:
+  date: '2022-09-16'
+  fixed:
+  added:
+  changed:
+  - 'dry-configurable will be used whenever it is in the $LOAD_PATH (see dry-rb/dry-system#247 for more context) (@solnic)'
 - version: 0.10.1
   summary:
   date: '2022-07-29'
