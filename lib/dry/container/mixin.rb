@@ -89,6 +89,8 @@ module Dry
     #   => 'item'
     #
     # @api public
+    #
+    # rubocop:disable Metrics/ModuleLength
     module Mixin
       # @private
       def self.extended(base)
@@ -346,6 +348,6 @@ module Dry
         copy
       end
     end
-    # rubocop: enable Metrics/ModuleLength
+    # rubocop:enable Metrics/ModuleLength
   end
 end
