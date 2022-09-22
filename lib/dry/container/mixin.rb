@@ -11,13 +11,13 @@ module Dry
       DEFAULT_REGISTRY = Registry.new
 
       # @api public
-      attr_accessor :namespace_separator
+      attr_reader :namespace_separator
 
       # @api public
-      attr_accessor :resolver
+      attr_reader :resolver
 
       # @api public
-      attr_accessor :registry
+      attr_reader :registry
 
       # @api private
       def initialize(
@@ -28,6 +28,35 @@ module Dry
         @namespace_separator = namespace_separator
         @resolver = resolver
         @registry = registry
+      end
+
+      # @api private
+      def to_configure
+        Mutable.new(
+          namespace_separator: namespace_separator,
+          resolver: resolver,
+          registry: registry
+        )
+      end
+
+      # @api private
+      def update(config)
+        @namespace_separator = config.namespace_separator
+        @resolver = config.resolver
+        @registry = config.registry
+
+        self
+      end
+
+      class Mutable < Config
+        # @api public
+        attr_accessor :namespace_separator
+
+        # @api public
+        attr_accessor :resolver
+
+        # @api public
+        attr_accessor :registry
       end
     end
 
@@ -53,11 +82,13 @@ module Dry
         def config
           @config ||= Config.new
         end
-      end
 
-      # @api private
-      def configure
-        yield config
+        # @api private
+        def configure
+          configured = config.to_configure
+          yield configured
+          config.update(configured)
+        end
       end
     end
 
