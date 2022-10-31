@@ -8,7 +8,7 @@
 - Add a warning about deprecation of the gem (via #89) (@solnic)
 
 
-[Compare v0.11.0...master](https://github.com/dry-rb/dry-container/compare/v0.11.0...master)
+[Compare v0.11.0...main](https://github.com/dry-rb/dry-container/compare/v0.11.0...main)
 
 ## 0.11.0 2022-09-16
 
