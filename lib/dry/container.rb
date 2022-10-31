@@ -8,6 +8,17 @@ require "dry/container/namespace_dsl"
 require "dry/container/mixin"
 require "dry/container/version"
 
+begin
+  require "dry/core"
+
+  if defined?(Dry::Core::Container)
+    warn "dry-container is deprecated and is now provided by dry-core as Dry::Core::Container"
+  else
+    warn "dry-container is deprecated, please upgrade to the latest dry-core as it now ships with Dry::Core::Container built-in"
+  end
+rescue NameError
+end
+
 # A collection of micro-libraries, each intended to encapsulate
 # a common task in Ruby
 module Dry
