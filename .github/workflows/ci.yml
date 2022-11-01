@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - ".github/workflows/ci.yml"
+      - ".devtools"
       - "lib/**"
       - "*.gemspec"
       - "spec/**"
@@ -26,9 +27,9 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
-          - "3.1"
-          - "3.0"
-          - "2.7"
+        - "3.1"
+        - "3.0"
+        - "2.7"
         include:
           - ruby: "3.1"
             coverage: "true"
@@ -47,8 +48,6 @@ jobs:
           bundler-cache: true
       - name: Run all tests
         run: bundle exec rake
-      - name: Run all tests using dry/configurable for config
-        run: bundle exec rake spec:configurable
   release:
     runs-on: ubuntu-latest
     if: contains(github.ref, 'tags') && github.event_name == 'create'
