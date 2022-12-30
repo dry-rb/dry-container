@@ -44,7 +44,7 @@ You can configure how items are registered and resolved from the container. Curr
 but custom resolver should subclass the default one or have the same public interface.
 
 ```ruby
-class CustomResolver < Dry::Container::Registry
+class CustomResolver < Dry::Container::Resolver
   RENAMED_KEYS = { 'old' => 'new' }
 
   def call(container, key)
