@@ -111,9 +111,13 @@ module Dry
 
       # @private
       module Initializer
-        def initialize(*args, &block)
+        def initialize(*args, **kwargs, &block)
           @_container = ::Concurrent::Hash.new
-          super
+          if kwargs.empty?
+            super(*args, &block)
+          else
+            super(*args, **kwargs, &block)
+          end
         end
       end
 

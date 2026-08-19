@@ -25,14 +25,17 @@ RSpec.describe Dry::Container::Mixin do
     it_behaves_like "a container"
 
     context "into a class with a custom .initialize method" do
+      let(:container) do
+        klass.new("arg", keyword: "kwarg")
+      end
       let(:klass) do
         Class.new do
           attr_reader :test
 
           include Dry::Container::Mixin
 
-          def initialize
-            @test = true
+          def initialize(positional, keyword:)
+            @test = [positional, keyword]
           end
         end
       end
@@ -42,7 +45,7 @@ RSpec.describe Dry::Container::Mixin do
       end
 
       it "doesn't override the original initialize method" do
-        expect(container.test).to be(true)
+        expect(container.test).to eq(%w[arg kwarg])
       end
     end
   end
